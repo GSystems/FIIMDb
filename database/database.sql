@@ -59,3 +59,18 @@ INSERT INTO genre (`TYPE`) VALUES
     ('Horror');
     
 ######### GENRE TABLE
+
+
+######### MOVIE_GENRE TABLE
+
+CREATE TABLE movie_genre (
+    `id_movie` INT NOT NULL,
+    `id_genre` TINYINT NOT NULL,
+    FOREIGN KEY (id_movie) REFERENCES movie(ID),
+    FOREIGN KEY (id_genre) REFERENCES genre(ID)
+);
+
+######### MOVIE_GENRE TABLE
+
+
+######### TABLE
