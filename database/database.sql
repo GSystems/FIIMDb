@@ -70,7 +70,10 @@ CREATE TABLE movie_genre (
     FOREIGN KEY (id_genre) REFERENCES genre(ID)
 );
 
+Insert into movie_genre (id_movie, id_genre) VALUES
+	(1,1),
+    (1,2),
+    (2,1),
+    (3,2);
+
 ######### MOVIE_GENRE TABLE
-
-
-######### TABLE
