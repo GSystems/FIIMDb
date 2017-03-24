@@ -75,5 +75,7 @@ Insert into movie_genre (id_movie, id_genre) VALUES
     (1,2),
     (2,1),
     (3,2);
+	(4,5),
+    (5,3);
 
 ######### MOVIE_GENRE TABLE
