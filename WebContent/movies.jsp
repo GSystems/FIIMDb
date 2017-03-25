@@ -14,16 +14,17 @@
 <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean"></jsp:useBean>
+	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
 
 	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<div class="navbar-brand">
-					<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017 </a>
-				</div>	
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<div class="navbar-brand">
+				<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017
+				</a>
 			</div>
 		</div>
+
 	</nav>
 
 	<div class="navbar-header">
@@ -34,10 +35,14 @@
 		<fieldset>
 			<legend>Search Form</legend>
 
-			<form>
+			<form action="SearchServlet" method="GET">
 				<div class="col-sm-8">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search...">
+						<% if (request.getParameter("searchedValue") == null) { %>
+							<input type="text" class="form-control" placeholder="Search..."  name="searchedValue">
+						<%} else { %>
+							<input type="text" class="form-control" value="<%=request.getParameter("searchedValue") %>"  name="searchedValue">
+						<% } %>
 					</div>
 				</div>
 
@@ -48,25 +53,24 @@
 				<div class="form-group col-sm-8">
 					<div class="col-sm-4">
 						<label class="radio-inline"> 
-							<input type="radio" class="form-check-input" name="searchType" value="name" /> By Name
+							<input type="radio" class="form-check-input" name="searchType" value="name" checked="<%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("name") == true ? true : false%>"/> By Name
 						</label>
 					</div>
 					
 					<div class="col-sm-4">
 						<label class="radio-inline"> 
-							<input type="radio" class="form-check-input" name="searchType" value="genre" /> By Genre
+							<input type="radio" class="form-check-input" name="searchType" value="genre" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("genre") == true ? "checked" : ""%>/> By Genre
 						</label>
 					</div>
 					
 					<div class="col-sm-4">
 						<label class="radio-inline"> 
-							<input type="radio" class="form-check-input" name="searchType" value="year" /> By Release Year
+							<input type="radio" class="form-check-input" name="searchType" value="year" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("year") == true ? "checked" : ""%>/> By Release Year
 						</label>
 					</div>
 				</div>
 			</form>
 		</fieldset>
-
 		<div class="movie-container">
 			<ul class="list-group">
 				<%
@@ -84,12 +88,13 @@
 							Release date:
 							<%=movie.getReleaseDate()%><br /> Director:
 							<%=movie.getDirector()%><br /> Rating:
-							<%=movie.getRating()%><br /> Genre: <br />
+							<%=movie.getRating()%><br /> Genre: 
+							<%=movie.getGenre()%> <br />
 							<p>
 								Storyline:
 								<%=movie.getDescription()%>
 							</p>
-							
+
 						</div>
 
 					</div>

@@ -3,6 +3,7 @@ package eu.ubis.fiimdb.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.ubis.fiimdb.db.entity.GenreEntity;
 import eu.ubis.fiimdb.db.entity.MovieEntity;
 import eu.ubis.fiimdb.db.repository.MovieRepository;
 import eu.ubis.fiimdb.db.repository.RepositoryFactory;
@@ -19,13 +20,11 @@ public class MovieService {
 			Movie movie = mapMovieEntityToModel(movieEntity);
 			movies.add(movie);
 		}
-
 		return movies;
 	}
 
-	private Movie mapMovieEntityToModel(MovieEntity movieEntity) {
+	public Movie mapMovieEntityToModel(MovieEntity movieEntity) {
 		Movie movie = new Movie();
-		
 		movie.setId(movieEntity.getId());
 		movie.setReleaseDate(movieEntity.getReleaseDate());
 		movie.setName(movieEntity.getName());
@@ -35,7 +34,37 @@ public class MovieService {
 		movie.setDirector(movieEntity.getDirector());
 		movie.setDescription(movieEntity.getDescription());
 		movie.setWriter(movieEntity.getWriter());
-
+//		movie.setGenre(mapGenreEntityListToMovie(movieEntity.getGenre()));
 		return movie;
+	}
+	
+//	private String mapGenreEntityListToMovie(List<GenreEntity> genreEntities) {
+//		if (genreEntities.size() <= 0) {
+//			return "";
+//		}
+//		StringBuilder stringBuilder = new StringBuilder();
+//		for (GenreEntity ge : genreEntities) {
+//			stringBuilder.append(ge.getType());
+//			if (genreEntities.indexOf(ge) != genreEntities.size() - 1) {
+//				stringBuilder.append(", ");
+//			}
+//		}
+//		return stringBuilder.toString();
+//	}
+	
+	public List<Movie> search(String criteria, String value) {
+		MovieRepository movieRepository = RepositoryFactory.getMovieRepository();
+		List<MovieEntity> movieEntities = movieRepository.search(criteria, value);
+		
+		return transformMovieEntityToMovie(movieEntities);
+	}
+	
+	private List<Movie> transformMovieEntityToMovie(List<MovieEntity> movieEntities) {
+		List<Movie> movies = new ArrayList<Movie>();
+		for (MovieEntity movieEntity : movieEntities) {
+			Movie movie = mapMovieEntityToModel(movieEntity);
+			movies.add(movie);
+		}
+		return movies;
 	}
 }

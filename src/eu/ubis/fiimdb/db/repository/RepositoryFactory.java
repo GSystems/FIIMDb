@@ -7,7 +7,6 @@ public class RepositoryFactory {
 		if (movieRepository == null) {
 			movieRepository = new MovieRepository();
 		}
-
 		return movieRepository;
 	}
 }

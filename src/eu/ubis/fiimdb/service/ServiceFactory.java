@@ -7,7 +7,6 @@ public final class ServiceFactory {
 		if(movieService == null) {
 			movieService = new MovieService();
 		}
-		
 		return movieService;
 	}
 }

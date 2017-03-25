@@ -1,6 +1,9 @@
 package eu.ubis.fiimdb.db.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class MovieEntity {
 	private int id;
@@ -12,6 +15,11 @@ public class MovieEntity {
 	private String director;
 	private String description;
 	private String writer;
+	private List<GenreEntity> genres;
+
+	public MovieEntity() {
+		this.genres = new ArrayList<>();
+	}
 
 	public int getId() {
 		return id;
@@ -84,4 +92,26 @@ public class MovieEntity {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
+
+	public List<GenreEntity> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(List<GenreEntity> genres) {
+		this.genres = genres;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof MovieEntity)) {
+			return false;
+		}
+		return ((MovieEntity) obj).getId() == this.id;
+	}
+
 }

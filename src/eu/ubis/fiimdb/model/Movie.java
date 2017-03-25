@@ -12,6 +12,7 @@ public class Movie {
 	private String director;
 	private String description;
 	private String writer;
+	private String genre;
 	
 	public int getId() {
 		return id;
@@ -83,5 +84,13 @@ public class Movie {
 
 	public void setWriter(String writer) {
 		this.writer = writer;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}	
 }
