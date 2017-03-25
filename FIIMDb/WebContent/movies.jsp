@@ -73,6 +73,7 @@
 		</fieldset>
 		<div class="movie-container">
 			<ul class="list-group">
+			
 				<%
 					for (Movie movie : movieBean.getMovies()) {
 				%>
@@ -81,10 +82,10 @@
 					<div class="row">
 						<img src="images/poster-unavailable.jpg" alt="Poster unavailable"
 							class="img-thumbnail rounded float-left col-sm-2" />
-
+						
 						<div class="col-sm-10">
 							<h3><%=movie.getName()%></h3>
-
+	
 							Release date:
 							<%=movie.getReleaseDate()%><br /> Director:
 							<%=movie.getDirector()%><br /> Rating:
@@ -94,7 +95,11 @@
 								Storyline:
 								<%=movie.getDescription()%>
 							</p>
+						<a href="movie.jsp?id=<%=movie.getId()%>">
+							<div class="button">
+								<button type="submit" id="<%=movie.getId()%>" name="detailsButton">Details</button>
 						</div>
+						</a>
 					</div>
 				</li>
 				<%

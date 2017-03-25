@@ -20,5 +20,11 @@ public class MovieBean {
 	
 	public List<Movie> getMovies() {
 		return movies;
-	}	
+	}
+	
+	public Movie getSelectedMovie(int id) {
+		Movie movie = new Movie();
+		movie = movies.get(id);
+		return movie;
+	}
 }

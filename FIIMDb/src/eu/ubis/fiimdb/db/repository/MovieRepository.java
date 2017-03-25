@@ -46,6 +46,8 @@ public class MovieRepository {
 				me.getGenres().add(genre);
 				movie.getGenres().add(genre);
 				
+				
+				
 				movies.add(movie);
 			}
 		} catch (SQLException e) {
@@ -98,6 +100,8 @@ public class MovieRepository {
 				movies = new ArrayList<MovieEntity>();
 				movieEntity.getGenres().add(genre);
 				movie.getGenres().add(genre);
+				
+				System.out.println(movie.getName());
 				
 				movies.add(movie);
 			}
