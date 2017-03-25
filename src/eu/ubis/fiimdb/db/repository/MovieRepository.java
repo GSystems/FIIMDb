@@ -11,7 +11,9 @@ import eu.ubis.fiimdb.db.entity.MovieEntity;
 
 public class MovieRepository {
 	private static final String GET_ALL_MOVIES_SQL = "SELECT m.id as id_movie, m.release_date, m.name, m.rating, m.length, m.casting, m.director, m.description, m.writer, g.id as id_genre, g.type"
-			+ " FROM movie m " + "JOIN movie_genre mg ON m.id = mg.id_movie " + "JOIN genre g ON g.id = mg.id_genre";
+			+ " FROM movie m " 
+			+ "JOIN movie_genre mg ON m.id = mg.id_movie "
+			+ "JOIN genre g ON g.id = mg.id_genre";
 
 	public List<MovieEntity> getAllMovies() {
 		Connection con = ConnectionHelper.getConnection();
@@ -35,17 +37,15 @@ public class MovieRepository {
 				} else {
 					movie.setDescription("");
 				}
-				
 				movie.setWriter(resultSet.getString("writer"));
 
-//				GenreEntity genre = new GenreEntity();
-//				genre.setId(resultSet.getInt("id_genre"));
-//				genre.setType(resultSet.getString("type"));
-//
-//				MovieEntity movieEntity = new MovieEntity();
-//				movieEntity.getGenre().add(genre);
-//				movie.getGenre().add(genre);
-//				
+				GenreEntity genre = new GenreEntity();
+				genre.setId(resultSet.getInt("id_genre"));
+				genre.setType(resultSet.getString("type"));
+				MovieEntity me = new MovieEntity();
+				me.getGenres().add(genre);
+				movie.getGenres().add(genre);
+				
 				movies.add(movie);
 			}
 		} catch (SQLException e) {
@@ -90,15 +90,15 @@ public class MovieRepository {
 				}
 				movie.setWriter(resultSet.getString("writer"));
 				
-//				GenreEntity genre = new GenreEntity();
-//				genre.setId(resultSet.getInt("id_genre"));
-//				genre.setType(resultSet.getString("type"));
-//
-//				MovieEntity movieEntity = new MovieEntity();
-//				movies = new ArrayList<MovieEntity>();
-//				movieEntity.getGenre().add(genre);
-//				movie.getGenre().add(genre);
-//				
+				GenreEntity genre = new GenreEntity();
+				genre.setId(resultSet.getInt("id_genre"));
+				genre.setType(resultSet.getString("type"));
+
+				MovieEntity movieEntity = new MovieEntity();
+				movies = new ArrayList<MovieEntity>();
+				movieEntity.getGenres().add(genre);
+				movie.getGenres().add(genre);
+				
 				movies.add(movie);
 			}
 		} catch (SQLException e) {

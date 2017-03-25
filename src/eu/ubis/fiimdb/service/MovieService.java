@@ -34,23 +34,23 @@ public class MovieService {
 		movie.setDirector(movieEntity.getDirector());
 		movie.setDescription(movieEntity.getDescription());
 		movie.setWriter(movieEntity.getWriter());
-//		movie.setGenre(mapGenreEntityListToMovie(movieEntity.getGenre()));
+		movie.setGenre(mapGenreEntityListToMovie(movieEntity.getGenres()));
 		return movie;
 	}
 	
-//	private String mapGenreEntityListToMovie(List<GenreEntity> genreEntities) {
-//		if (genreEntities.size() <= 0) {
-//			return "";
-//		}
-//		StringBuilder stringBuilder = new StringBuilder();
-//		for (GenreEntity ge : genreEntities) {
-//			stringBuilder.append(ge.getType());
-//			if (genreEntities.indexOf(ge) != genreEntities.size() - 1) {
-//				stringBuilder.append(", ");
-//			}
-//		}
-//		return stringBuilder.toString();
-//	}
+	private String mapGenreEntityListToMovie(List<GenreEntity> genreEntities) {
+		if (genreEntities.size() <= 0) {
+			return "";
+		}
+		StringBuilder stringBuilder = new StringBuilder();
+		for (GenreEntity ge : genreEntities) {
+			stringBuilder.append(ge.getType());
+			if (genreEntities.indexOf(ge) != genreEntities.size() - 1) {
+				stringBuilder.append(", ");
+			}
+		}
+		return stringBuilder.toString();
+	}
 	
 	public List<Movie> search(String criteria, String value) {
 		MovieRepository movieRepository = RepositoryFactory.getMovieRepository();

@@ -74,7 +74,7 @@
 		<div class="movie-container">
 			<ul class="list-group">
 				<%
-					for (Movie movie : movieBean.getAllMovies()) {
+					for (Movie movie : movieBean.getMovies()) {
 				%>
 
 				<li class="list-group-item">
@@ -94,16 +94,12 @@
 								Storyline:
 								<%=movie.getDescription()%>
 							</p>
-
 						</div>
-
 					</div>
 				</li>
-
 				<%
 					}
 				%>
-
 			</ul>
 		</div>
 	</div>

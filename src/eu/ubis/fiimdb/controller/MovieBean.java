@@ -8,9 +8,17 @@ import eu.ubis.fiimdb.service.ServiceFactory;
 
 public class MovieBean {
 	private MovieService movieService = ServiceFactory.getMovieService();
-
-	public List<Movie> getAllMovies() {
-		List<Movie> movies = movieService.getMovies();
-		return movies;
+	private List<Movie> movies = movieService.getMovies();
+	
+	public void getAllMovies() {
+		movies = movieService.getMovies();
 	}
+	
+	public void search(String criteria, String value) {
+		movies = movieService.search(criteria, value);
+	}
+	
+	public List<Movie> getMovies() {
+		return movies;
+	}	
 }
