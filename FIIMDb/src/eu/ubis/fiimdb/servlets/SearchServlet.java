@@ -12,7 +12,7 @@ import eu.ubis.fiimdb.controller.MovieBean;
 @WebServlet("/SearchServlet")
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     public SearchServlet() {
         super();
     }
@@ -35,9 +35,9 @@ public class SearchServlet extends HttpServlet {
 				movie.search("year", searchedValue);
 				break;
 		}
-		response.sendRedirect("movies.jsp");
+		response.sendRedirect("SearchedMovies.jsp");
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		doGet(request, response);
 	}

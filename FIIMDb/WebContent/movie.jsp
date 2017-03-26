@@ -39,6 +39,7 @@
 					<%
 						String sid = request.getParameter("id");
 						int id = Integer.parseInt(sid);
+						
 						Movie movie = movieBean.getSelectedMovie(id-1);
 					%>
 					<li class="list-group-item">

@@ -55,16 +55,24 @@ public class MovieService {
 	public List<Movie> search(String criteria, String value) {
 		MovieRepository movieRepository = RepositoryFactory.getMovieRepository();
 		List<MovieEntity> movieEntities = movieRepository.search(criteria, value);
-		
-		return transformMovieEntityToMovie(movieEntities);
-	}
-	
-	private List<Movie> transformMovieEntityToMovie(List<MovieEntity> movieEntities) {
 		List<Movie> movies = new ArrayList<Movie>();
 		for (MovieEntity movieEntity : movieEntities) {
 			Movie movie = mapMovieEntityToModel(movieEntity);
+			System.out.println("service " + movie.getName());
 			movies.add(movie);
 		}
 		return movies;
 	}
+	
+//	private List<Movie> transformMovieEntityToMovie(List<MovieEntity> movieEntities) {
+//		List<Movie> movies = new ArrayList<Movie>();
+//		for (MovieEntity movieEntity : movieEntities) {
+//			Movie movie = mapMovieEntityToModel(movieEntity);
+//			
+//			System.out.println("new: " + movie.getName());
+//			
+//			movies.add(movie);
+//		}
+//		return movies;
+//	}
 }

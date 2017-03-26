@@ -18,13 +18,13 @@ public class MovieRepository {
 	public List<MovieEntity> getAllMovies() {
 		Connection con = ConnectionHelper.getConnection();
 		List<MovieEntity> movies = new ArrayList<MovieEntity>();
-		
+
 		try {
 			ResultSet resultSet = con.createStatement().executeQuery(GET_ALL_MOVIES_SQL);
-			
+
 			while (resultSet.next()) {
 				MovieEntity movie = new MovieEntity();
-				
+
 				movie.setId(resultSet.getInt("id_movie"));
 				movie.setReleaseDate(resultSet.getDate("release_date"));
 				movie.setName(resultSet.getString("name"));
@@ -37,18 +37,21 @@ public class MovieRepository {
 				} else {
 					movie.setDescription("");
 				}
-				movie.setWriter(resultSet.getString("writer"));
 
+				movie.setWriter(resultSet.getString("writer"));
 				GenreEntity genre = new GenreEntity();
 				genre.setId(resultSet.getInt("id_genre"));
 				genre.setType(resultSet.getString("type"));
-				MovieEntity me = new MovieEntity();
-				me.getGenres().add(genre);
-				movie.getGenres().add(genre);
-				
-				
-				
-				movies.add(movie);
+
+				if (movies.contains(movie)) {
+					MovieEntity me = movies.get(movies.indexOf(movie));
+					if (!me.getGenres().contains(genre)) {
+						me.getGenres().add(genre);
+					}
+				} else {
+					movie.getGenres().add(genre);
+					movies.add(movie);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,13 +104,12 @@ public class MovieRepository {
 				movieEntity.getGenres().add(genre);
 				movie.getGenres().add(genre);
 				
-				System.out.println(movie.getName());
-				
 				movies.add(movie);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(movies.get(0).getName());
 		return movies;
 	}
 }

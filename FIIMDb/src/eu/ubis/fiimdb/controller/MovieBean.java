@@ -1,14 +1,18 @@
 package eu.ubis.fiimdb.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import eu.ubis.fiimdb.model.Genre;
 import eu.ubis.fiimdb.model.Movie;
+import eu.ubis.fiimdb.service.GenreService;
 import eu.ubis.fiimdb.service.MovieService;
 import eu.ubis.fiimdb.service.ServiceFactory;
 
 public class MovieBean {
 	private MovieService movieService = ServiceFactory.getMovieService();
-	private List<Movie> movies = movieService.getMovies();
+	private GenreService genreService = ServiceFactory.getGenreService();
+	private static List<Movie> movies = new ArrayList<Movie>();
 	
 	public void getAllMovies() {
 		movies = movieService.getMovies();
@@ -24,7 +28,12 @@ public class MovieBean {
 	
 	public Movie getSelectedMovie(int id) {
 		Movie movie = new Movie();
-		movie = movies.get(id);
+		movies = movieService.getMovies();
+		movie  = movies.get(id);
 		return movie;
+	}
+	
+	public List<Genre> getGenres() {
+		return genreService.getGenres();
 	}
 }

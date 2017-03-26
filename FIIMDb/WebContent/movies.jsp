@@ -75,6 +75,7 @@
 			<ul class="list-group">
 			
 				<%
+					movieBean.getAllMovies();
 					for (Movie movie : movieBean.getMovies()) {
 				%>
 
