@@ -79,8 +79,12 @@ public class MovieRepository {
 		}
 		try {
 			ResultSet resultSet = con.createStatement().executeQuery(query);
+			
+			movies = new ArrayList<MovieEntity>();
+			
 			while (resultSet.next()) {
 				MovieEntity movie = new MovieEntity();
+				
 				movie.setId(resultSet.getInt("id_movie"));
 				movie.setReleaseDate(resultSet.getDate("release_date"));
 				movie.setName(resultSet.getString("name"));
@@ -94,22 +98,26 @@ public class MovieRepository {
 					movie.setDescription("");
 				}
 				movie.setWriter(resultSet.getString("writer"));
-				
 				GenreEntity genre = new GenreEntity();
+				List<GenreEntity> genreL = new ArrayList<GenreEntity>();
+				
 				genre.setId(resultSet.getInt("id_genre"));
 				genre.setType(resultSet.getString("type"));
-
-				MovieEntity movieEntity = new MovieEntity();
-				movies = new ArrayList<MovieEntity>();
-				movieEntity.getGenres().add(genre);
-				movie.getGenres().add(genre);
 				
-				movies.add(movie);
+				if (movies.contains(movie)) {
+					MovieEntity me = movies.get(movies.indexOf(movie));
+					if (!me.getGenres().contains(genre)) {
+						me.getGenres().add(genre);
+					}
+				} else {
+					movie.getGenres().add(genre);
+					movies.add(movie);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(movies.get(0).getName());
+//		System.out.println(movies.get(0).getName());
 		return movies;
 	}
 }

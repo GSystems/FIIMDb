@@ -16,6 +16,21 @@
 <body>
 	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
 
+	
+	<div class="nav navbar-nav navbar-right">
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><%=request.getRemoteUser() %>
+  							<span class="caret"></span></button>
+							<ul class="dropdown-menu" >
+								<li>
+									<form action="<%=response.encodeURL("UserServlet?action=logout") %>"  method="post">
+		                    				<button type="submit" class="btn btn-default center-block">Logout</button>
+		                				</form>	
+								</li>
+							</ul>
+						</div>
+					</div>
+
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -31,6 +46,8 @@
 					<li class="active"><a href="movie-insert.jsp">Insert movie</a></li>
 			</div>
 	</nav>
+	
+	
 	
 	<div class="container">
 		<fieldset>

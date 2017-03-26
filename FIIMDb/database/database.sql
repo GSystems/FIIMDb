@@ -79,3 +79,30 @@ Insert into movie_genre (id_movie, id_genre) VALUES
     (5,3);
 
 ######### MOVIE_GENRE TABLE
+
+######### USERS TABLE
+
+CREATE TABLE users (
+    `ID` INTEGER, 
+	`USERNAME` VARCHAR(50), 
+	`PASSWORD` VARCHAR(50)
+   );
+   
+######### USERS TABLE
+
+
+######### USERS_ROLES TABLE
+
+  CREATE TABLE users_roles (
+      `USERNAME` VARCHAR(50), 
+      `ROLENAME` VARCHAR(50)
+	);
+   
+   Insert into USERS (ID,USERNAME,PASSWORD) values (65,'admin','admin');
+   Insert into USERS_ROLES (USERNAME,ROLENAME) values ('admin','admin');
+
+   
+######### USERS_ROLES TABLE
+
+
+#########
