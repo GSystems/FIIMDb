@@ -70,14 +70,10 @@ public class MovieService {
 		List<Movie> movies = new ArrayList<Movie>();
 		for (MovieEntity movieEntity : movieEntities) {
 			Movie movie = mapMovieEntityToModel(movieEntity);
-			
-			System.out.println("new: " + movie.getName());
-			
 			movies.add(movie);
 		}
 		return movies;
 	}
-	
 	
 	//INSERT WITH JPA
 	public void insertMovie(Movie movie, int[] movieGenreIds) {
@@ -85,7 +81,6 @@ public class MovieService {
 		
 		List<GenreDao> movieGenres = new ArrayList<>();
 		for(int movieGenreId : movieGenreIds) {
-			//grija la id-uri... auto_increment
 			GenreDao movieGenre = new GenreDao();
 			movieGenre.setId(movieGenreId);
 			movieGenres.add(movieGenre);
@@ -98,18 +93,16 @@ public class MovieService {
 	}
 	
 	private MovieDao mapMovieModelToDao(Movie movie) {
-		MovieDao dao = new MovieDao();
-		
-		dao.setId(movie.getId());
-		dao.setReleaseDate(movie.getReleaseDate());
-		dao.setName(movie.getName());
-		dao.setRating(movie.getRating());
-		dao.setLength(movie.getLength());
-		dao.setCasting(movie.getCasting());
-		dao.setDirector(movie.getDirector());
-		dao.setDescription(movie.getDescription());
-		dao.setWriter(movie.getWriter());
-		
-		return dao;
+		MovieDao movieDao = new MovieDao();
+		movieDao.setId(movie.getId());
+		movieDao.setReleaseDate(movie.getReleaseDate());
+		movieDao.setName(movie.getName());
+		movieDao.setRating(movie.getRating());
+		movieDao.setLength(movie.getLength());
+		movieDao.setCasting(movie.getCasting());
+		movieDao.setDirector(movie.getDirector());
+		movieDao.setDescription(movie.getDescription());
+		movieDao.setWriter(movie.getWriter());		
+		return movieDao;
 	}
 }

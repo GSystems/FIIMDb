@@ -60,6 +60,11 @@
 				</div>
 				
 				<div class="form-group">
+					<label for="releaseDate"> Release Date: </label>
+					<input type="text" name="releaseDate" class="form-control" id="releaseDate"> 
+				</div>
+				
+				<div class="form-group">
 					<label for="rating"> Rating: </label>
 					<input type="number" name="rating" class="form-control" id="rating" value="0">
 				</div>

@@ -29,7 +29,6 @@ public class GenreService {
 			Genre genre = new Genre();
 			genre.setId(genreEntity.getId());
 			genre.setType(genreEntity.getType());
-			
 			genres.add(genre);
 		}
 		return genres;

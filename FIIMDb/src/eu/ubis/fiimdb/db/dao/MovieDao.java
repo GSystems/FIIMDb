@@ -6,13 +6,24 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(schema="fiimdb", name="movie")
 public class MovieDao {
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column( )
+	@Column(name="release_date")
 	private Date releaseDate;
 	private String name;
 	private double rating;
@@ -23,6 +34,9 @@ public class MovieDao {
 	private String writer;
 	
 	@ManyToMany
+	@JoinTable(name="movie_genre",
+		joinColumns = @JoinColumn(name="movie_id", referencedColumnName="id"),
+		inverseJoinColumns = @JoinColumn(name="id_genre", referencedColumnName="id"))
 	private List<GenreDao> genres;
 	
 	public MovieDao() {
