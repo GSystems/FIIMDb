@@ -35,7 +35,9 @@ public class SearchServlet extends HttpServlet {
 				movie.search("year", searchedValue);
 				break;
 		}
-		response.sendRedirect("SearchedMovies.jsp");
+//		response.sendRedirect("SearchedMovies.jsp");
+//		response.sendRedirect("movies.jsp");
+		request.getRequestDispatcher("/movie-searched.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

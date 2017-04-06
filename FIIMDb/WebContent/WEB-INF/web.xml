@@ -28,7 +28,5 @@
       <form-error-page>/login.jsp?flag=true</form-error-page>
     </form-login-config>
   </login-config>
-	
-
 </web-app>
 

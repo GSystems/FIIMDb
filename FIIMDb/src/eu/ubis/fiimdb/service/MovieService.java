@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import eu.ubis.fiimdb.db.dao.GenreDao;
 import eu.ubis.fiimdb.db.dao.MovieDao;
@@ -15,8 +16,6 @@ import eu.ubis.fiimdb.db.repository.RepositoryFactory;
 import eu.ubis.fiimdb.model.Movie;
 
 public class MovieService {
-
-	private EntityManager entityManager;
 	
 	public List<Movie> getMovies() {
 		MovieRepository movieRepository = RepositoryFactory.getMovieRepository();
@@ -79,6 +78,9 @@ public class MovieService {
 	public void insertMovie(Movie movie, int[] movieGenreIds) {
 		MovieDao movieDao = mapMovieModelToDao(movie);
 		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		
 		List<GenreDao> movieGenres = new ArrayList<>();
 		for(int movieGenreId : movieGenreIds) {
 			GenreDao movieGenre = new GenreDao();
@@ -86,10 +88,10 @@ public class MovieService {
 			movieGenres.add(movieGenre);
 		}
 		movieDao.setGenres(movieGenres);
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
+		
+		entityManager.getTransaction().begin();
 		entityManager.persist(movieDao);
-		transaction.commit();
+		entityManager.getTransaction().commit();
 	}
 	
 	private MovieDao mapMovieModelToDao(Movie movie) {

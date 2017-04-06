@@ -23,7 +23,7 @@ public class MovieInsertServlet extends HttpServlet {
 		
 		Movie movie = new Movie();
 		
-//		movie.setId(Integer.parseInt(request.getParameter("id").trim()));
+//		movie.setId(Integer.parseInt(request.getParameter("id")));
 		
 		movie.setName(request.getParameter("name"));
 		movie.setRating(Double.parseDouble(request.getParameter("rating")));
@@ -32,7 +32,7 @@ public class MovieInsertServlet extends HttpServlet {
 		
 		String myDate = request.getParameter("releaseDate");
 		System.out.println(myDate);
-		SimpleDateFormat parseDate   = new java.text.SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat parseDate = new java.text.SimpleDateFormat("dd-MM-yyyy");
 		java.util.Date date = null;
 		try {
 			date = (Date) parseDate.parse(myDate);
@@ -52,9 +52,9 @@ public class MovieInsertServlet extends HttpServlet {
 			movieGenreIds[i] = Integer.parseInt(genreIdStrings[i].trim());
 		}
 		
-		movie.setGenre("asdasf");;
    		MovieBean movieB = new MovieBean();
 		movieB.insertMovie(movie, movieGenreIds);
+		
 		response.sendRedirect("movies.jsp");
 	}
 }

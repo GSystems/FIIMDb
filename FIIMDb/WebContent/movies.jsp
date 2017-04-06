@@ -106,8 +106,10 @@
 						<a href="movie.jsp?id=<%=movie.getId()%>">
 							<div class="button">
 								<button type="submit" id="<%=movie.getId()%>" name="detailsButton">Details</button>
-						</div>
+							</div>
 						</a>
+							
+						
 					</div>
 				</li>
 				<%

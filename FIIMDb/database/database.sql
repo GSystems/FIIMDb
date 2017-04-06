@@ -14,29 +14,31 @@ CREATE TABLE movie
 	);
 
 INSERT INTO movie 
-(`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
+(`ID`,`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
 VALUES 
-('1994-10-14','The Shawshank Redemption',5,142,'Morgan Freeman','Frank Darabont','Frank Darabont');
+(1,'1994-10-14','The Shawshank Redemption',5,142,'Morgan Freeman','Frank Darabont','Frank Darabont');
 
 INSERT INTO MOVIE 
-(`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
+(`ID`,`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
 VALUES
-('1972-03-24','The Godfather',5,175,'Marlon Brando','Francis Ford Coppola','Francis Ford Coppola');
+(2,'1972-03-24','The Godfather',5,175,'Marlon Brando','Francis Ford Coppola','Francis Ford Coppola');
 
 INSERT INTO MOVIE 
-(`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
+(`ID`,`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
 VALUES
-('1988-06-03','Titanic',4,194,'Leonardo DiCaprio','James Cameron','James Cameron');
+(3,'1988-06-03','Titanic',4,194,'Leonardo DiCaprio','James Cameron','James Cameron');
 
 INSERT INTO MOVIE 
-(`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
+(`ID`,`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
 VALUES
-('1999-10-15','Fight Club',5,139,'Brad Pitt','David Fincher','Chuck Palahniuk');
+(4,'1999-10-15','Fight Club',5,139,'Brad Pitt','David Fincher','Chuck Palahniuk');
 
 INSERT INTO MOVIE 
-(`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
+(`ID`,`RELEASE_DATE`,`NAME`,`RATING`,`LENGTH`,`CASTING`,`DIRECTOR`,`WRITER`) 
 VALUES
-('2014-03-21','The Grand Budapest Hotel',4,99,'Ralph Fiennes','Wes Anderson','Wes Anderson');
+(5,'2014-03-21','The Grand Budapest Hotel',4,99,'Ralph Fiennes','Wes Anderson','Wes Anderson');
+
+ALTER TABLE movie AUTO_INCREMENT = 50;
 
 ######### MOVIE TABLE
 
@@ -70,11 +72,12 @@ CREATE TABLE movie_genre (
     FOREIGN KEY (id_genre) REFERENCES genre(ID)
 );
 
-Insert into movie_genre (id_movie, id_genre) VALUES
+INSERT INTO movie_genre (id_movie, id_genre) VALUES
 	(1,1),
-    (1,2),
+	(1,2),
     (2,1),
-    (3,2);
+	(2,3),
+    (3,2),
 	(4,5),
     (5,3);
 

@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(schema="fiimdb", name="movie")
+//@NamedQuery(name="getAllMovies", query="SELECT m FROM MovieDao m")
 public class MovieDao {
 	
 	@Id
@@ -35,7 +36,7 @@ public class MovieDao {
 	
 	@ManyToMany
 	@JoinTable(name="movie_genre",
-		joinColumns = @JoinColumn(name="movie_id", referencedColumnName="id"),
+		joinColumns = @JoinColumn(name="id_movie", referencedColumnName="id"),
 		inverseJoinColumns = @JoinColumn(name="id_genre", referencedColumnName="id"))
 	private List<GenreDao> genres;
 	

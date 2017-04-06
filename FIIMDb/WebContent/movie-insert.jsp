@@ -96,7 +96,7 @@
 				
 				<div class="form-group">
 					<label for="genres"> Genres: </label>
-						<select name="genres" class="form-control" id="genre" multiple="multiple">
+						<select name="genres" class="form-control" id="genres" multiple="multiple">
 							<%
 								for(Genre genre : movieBean.getGenres()) {
 							%>

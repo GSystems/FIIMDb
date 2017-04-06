@@ -99,7 +99,6 @@ public class MovieRepository {
 				}
 				movie.setWriter(resultSet.getString("writer"));
 				GenreEntity genre = new GenreEntity();
-				List<GenreEntity> genreL = new ArrayList<GenreEntity>();
 				
 				genre.setId(resultSet.getInt("id_genre"));
 				genre.setType(resultSet.getString("type"));
@@ -117,7 +116,6 @@ public class MovieRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		System.out.println(movies.get(0).getName());
 		return movies;
 	}
 }
