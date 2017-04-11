@@ -14,22 +14,6 @@
 <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
-
-	
-	<div class="nav navbar-nav navbar-right">
-						<div class="dropdown">
-							<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><%=request.getRemoteUser() %>
-  							<span class="caret"></span></button>
-							<ul class="dropdown-menu" >
-								<li>
-									<form action="<%=response.encodeURL("UserServlet?action=logout") %>"  method="post">
-		                    				<button type="submit" class="btn btn-default center-block">Logout</button>
-		                				</form>	
-								</li>
-							</ul>
-						</div>
-					</div>
 
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -42,12 +26,35 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="movies.jsp">Home</a></li>
-					<li class="active"><a href="movie-insert.jsp">Insert movie</a></li>
+					<li class="active"><a href="movies.jsp">Home</a></li>
+					<% if(request.getRemoteUser().equals("admin")) { %>
+					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
+					<li class="active"><a href="movie-details.jsp">Update Movie</a>
+					<li class="active"><a href="movie-delete.jsp">Delete Movie</a>
+				<% } %>
 			</div>
+			
+			
+		<div class="nav navbar-nav navbar-right">
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+				
+				<%=request.getRemoteUser() %>
+				
+					<span class="caret"></span></button>
+				<ul class="dropdown-menu" >
+					<li>
+						<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
+            				<button type="submit" class="btn btn-default center-block">Logout</button>
+            			</form>	
+					</li>
+				</ul>
+			</div>
+		</div>	
 	</nav>
 	
-	
+		<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
+
 	
 	<div class="container">
 		<fieldset>

@@ -1,6 +1,7 @@
 package eu.ubis.fiimdb.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +39,9 @@ public class UserServlet extends HttpServlet {
 		if(action.equals("logout")){
 			logout(request,response);
 		}
+		if(action.equals("login")) {
+			login(request,response);
+		}
 	}
 
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,6 +51,10 @@ public class UserServlet extends HttpServlet {
         }
         //no encoding because we have invalidated the session
         response.sendRedirect("movies.jsp");
+	}
+
+	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.sendRedirect("home.jsp");
 	}
 
 }

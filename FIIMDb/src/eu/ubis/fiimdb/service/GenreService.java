@@ -20,6 +20,7 @@ public class GenreService {
 	}
 	
 	public List<Genre> getGenres() {
+		@SuppressWarnings("unchecked")
 		List<GenreDao> genreEntities = (List<GenreDao>) entityManager.createNamedQuery("getAllGenres").getResultList();
 		
 		List<Genre> genres = new ArrayList<Genre>();

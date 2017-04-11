@@ -15,28 +15,66 @@
 </head>
 <body>
 	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
-
-	<nav class="navbar navbar-default">
+	<% String user = request.getRemoteUser(); %>
+<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<div class="navbar-brand">
-				<a href="movies.jsp"> Java Awesome Training Logo &copy; FII Practic 2017
-				</a>
+				<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
 			</div>
 		</div>
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="movies.jsp">Home</a></li>
-		</div>
-	</nav>
-
-	<div class="navbar-header">
 		
-	</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="movies.jsp">Home</a>
+				<% if(user != null )
+					
+					// it's a nice crash at logout if don't make the != null check first_______WHY???
+					
+					if(user.equals("admin")) { %>
+					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
+					<li class="active"><a href="movie-details.jsp">Update Movie</a>
+					<li class="active"><a href="movie-delete.jsp">Delete Movie</a>
+				<% } %>
+				</ul>
+			</div>
+			
+	 		<div class="nav navbar-nav navbar-right">
+				<div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+					<% if(user == null) { %>
+						guest
+					<% } else { %>
+						<%= user %>
+					<% } %>
+						<span class="caret"></span></button>
+						<ul class="dropdown-menu" >
+							<li>
+							<% if(user == null) { %>
+							 	<form action="<%=response.encodeURL("UserServlet?action=login") %>" method="post">
+		           					<button type="submit" class="btn btn-default center-block">Login</button>
+		           				</form>
+	           				</li>
+							<li>
+           						<form action="register.jsp">
+           							<button type="submit" class="btn btn-default center-block">Register</button>
+     							</form>
+       						</li>
+	         				<% } else  { %>
+	         				<li>
+								<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
+	           						<button type="submit" class="btn btn-default center-block">Logout</button>
+		           				</form>
+           					</li>
+           					<% } %>
+						</ul>
+				</div>
+			</div>
+	</nav>
+		
 
 	<div class="container">
-		<%-- <fieldset>
+		<fieldset>
 			<legend>Search Form</legend>
 
 			<form action="SearchServlet" method="GET">
@@ -74,7 +112,7 @@
 					</div>
 				</div>
 			</form>
-		</fieldset> --%>
+		</fieldset>
 		<div class="movie-container">
 			<ul class="list-group">
 				<%

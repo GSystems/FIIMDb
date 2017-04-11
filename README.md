@@ -1,6 +1,5 @@
 # FIIMDb
 
-- don't forget to copy lib/mysql-connector-java-5.1.41-bin.jar to tomcat lib folder
-- copy all jars from lib folder to tomcat lib folder
+- copy the content from FIIMDb/lib folder to tomcat/lib folder
 - the project uses mysql database
-- you can import the project using the WAR file
+- you can import the java project using the WAR file and the database using sql file
