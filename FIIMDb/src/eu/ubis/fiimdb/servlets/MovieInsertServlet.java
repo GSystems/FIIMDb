@@ -23,8 +23,6 @@ public class MovieInsertServlet extends HttpServlet {
 		
 		Movie movie = new Movie();
 		
-//		movie.setId(Integer.parseInt(request.getParameter("id")));
-		
 		movie.setName(request.getParameter("name"));
 		movie.setRating(Double.parseDouble(request.getParameter("rating")));
 		movie.setLength(Integer.parseInt(request.getParameter("length")));

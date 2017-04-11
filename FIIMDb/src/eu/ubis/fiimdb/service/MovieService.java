@@ -74,6 +74,19 @@ public class MovieService {
 		return movies;
 	}
 	
+	public void deleteMovie(int id) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		entityManager.getTransaction().begin();
+		MovieDao movie = entityManager.find(MovieDao.class, id);
+		entityManager.remove(movie);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		emf.close();
+		
+		
+	}
+	
 	//INSERT WITH JPA
 	public void insertMovie(Movie movie, int[] movieGenreIds) {
 		MovieDao movieDao = mapMovieModelToDao(movie);
@@ -92,6 +105,8 @@ public class MovieService {
 		entityManager.getTransaction().begin();
 		entityManager.persist(movieDao);
 		entityManager.getTransaction().commit();
+		entityManager.close();
+		emf.close();
 	}
 	
 	private MovieDao mapMovieModelToDao(Movie movie) {

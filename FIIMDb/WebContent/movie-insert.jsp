@@ -29,9 +29,7 @@
 					<li class="active"><a href="movies.jsp">Home</a></li>
 					<% if(request.getRemoteUser().equals("admin")) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
-					<li class="active"><a href="movie-details.jsp">Update Movie</a>
-					<li class="active"><a href="movie-delete.jsp">Delete Movie</a>
-				<% } %>
+					<% } %>
 			</div>
 			
 			
@@ -114,7 +112,6 @@
 						</select>
 				</div>
 				<button type="submit" class="btn btn-primary"> Insert </button>
-				
 			</form>
 		</fieldset>
 	</div>

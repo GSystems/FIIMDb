@@ -15,33 +15,110 @@
 <body>
 	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
 	
-	<div class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<div class="navbar-brand">
-					<a href="#">Java Awesome Training Logo &copy; FII Practic 2017</a>
-				</div>
+	<% String user = request.getRemoteUser(); %>
+	<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<div class="navbar-brand">
+				<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
 			</div>
 		</div>
+		
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="movies.jsp">Home</a>
+			<% if(user != null )
+				
+				// it's a nice crash at logout if don't make the != null check first_______WHY???
+				
+				if(user.equals("admin")) { %>
 				<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
+			<% } %>
 			</ul>
 		</div>
-	</div>
+		
+ 		<div class="nav navbar-nav navbar-right">
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+				<% if(user == null) { %>
+					guest
+				<% } else { %>
+					<%= user %>
+				<% } %>
+					<span class="caret"></span></button>
+					<ul class="dropdown-menu" >
+						<li>
+						<% if(user == null) { %>
+						 	<form action="<%=response.encodeURL("UserServlet?action=login") %>" method="post">
+	           					<button type="submit" class="btn btn-default center-block">Login</button>
+	           				</form>
+           				</li>
+						<li>
+          						<form action="register.jsp">
+          							<button type="submit" class="btn btn-default center-block">Register</button>
+    							</form>
+      						</li>
+         				<% } else  { %>
+         				<li>
+							<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
+           						<button type="submit" class="btn btn-default center-block">Logout</button>
+	           				</form>
+          					</li>
+          					<% } %>
+					</ul>
+			</div>
+		</div>
+	</nav>
 	
 	<div class="container">
+	
+	<fieldset>
+			<legend>Search Form</legend>
+
+			<form action="SearchServlet" method="GET">
+				<div class="col-sm-8">
+					<div class="form-group">
+						<% if (request.getParameter("searchedValue") == null) { %>
+							<input type="text" class="form-control" placeholder="Search..."  name="searchedValue">
+						<%} else { %>
+							<input type="text" class="form-control" value="<%=request.getParameter("searchedValue") %>"  name="searchedValue">
+						<% } %>
+					</div>
+				</div>
+
+				<div class="col-sm-4">
+					<button type="submit" class="btn btn-primary">Search</button>
+				</div>
+
+				<div class="form-group col-sm-8">
+					<div class="col-sm-4">
+						<label class="radio-inline"> 
+							<input type="radio" class="form-check-input" name="searchType" value="name" checked="<%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("name") == true ? true : false%>"/> By Name
+						</label>
+					</div>
+					
+					<div class="col-sm-4">
+						<label class="radio-inline"> 
+							<input type="radio" class="form-check-input" name="searchType" value="genre" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("genre") == true ? "checked" : ""%>/> By Genre
+						</label>
+					</div>
+					
+					<div class="col-sm-4">
+						<label class="radio-inline"> 
+							<input type="radio" class="form-check-input" name="searchType" value="year" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("year") == true ? "checked" : ""%>/> By Release Year
+						</label>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+		
 		<fieldset>
 			<legend> Movie's Details </legend>
 			
 			<div class="movie-container">
 				<ul class="list-group">				
 					<%
-						String sid = request.getParameter("id");
-						int id = Integer.parseInt(sid);
-						
-						Movie movie = movieBean.getSelectedMovie(id-1);
+						for (Movie movie : movieBean.getMovies()) {
 					%>
 					<li class="list-group-item">
 						<div class="row">
@@ -56,15 +133,23 @@
 								<%=movie.getRating() %> <br /> Genre:
 								<%=movie.getGenre() %> <br />
 								<p> Storyline:
-									<%=movie.getDescription() %>
+									<%=movie.getDescription()%>
 								</p>
+							<% if(user != null )
+							// it's a nice crash at logout if don't make the != null check first_______WHY???
+							if(user.equals("admin")) { %>
+							<form method="post" action="MovieDeleteServlet">
+								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
+							</form>
+							<% } %>
 							</div>
-							
 						</div>
 					</li>
+					<%
+						}
+					%>
 				</ul>
 			</div>
-			
 		</fieldset>
 	</div>
 	

@@ -31,8 +31,6 @@
 				<li class="active"><a href="movies.jsp">Home</a>
 				<% if(user.equals("admin")) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
-					<li class="active"><a href="movie-details.jsp">Update Movie</a>
-					<li class="active"><a href="movie-delete.jsp">Delete Movie</a>
 				<% } %>
 			</ul>
 		</div>
@@ -120,13 +118,18 @@
 								Storyline:
 								<%=movie.getDescription()%>
 							</p>
-						<a href="movie-details.jsp?id=<%=movie.getId()%>">
-							<div class="button">
-								<button type="submit" id="<%=movie.getId()%>" name="detailsButton">Details</button>
-							</div>
-						</a>
-							
 						
+							<form method="post" action="MovieDetailsServlet">
+								<button type="submit" class="btn btn-primary" name="detailsButton" value="<%=movie.getId()%>">Details</button>
+							</form>
+							<% if(user != null )
+							// it's a nice crash at logout if don't make the != null check first_______WHY???
+							if(user.equals("admin")) { %>
+							<form method="post" action="MovieDeleteServlet">
+								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
+							</form>
+							<% } %>
+						</div>
 					</div>
 				</li>
 				<%
