@@ -17,34 +17,34 @@
 	
 	<% String user = request.getRemoteUser(); %>
 	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<div class="navbar-brand">
-				<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<div class="navbar-brand">
+					<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
+				</div>
 			</div>
-		</div>
-		
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="movies.jsp">Home</a>
-			<% if(user != null )
-				
-				// it's a nice crash at logout if don't make the != null check first_______WHY???
-				
-				if(user.equals("admin")) { %>
-				<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
-			<% } %>
-			</ul>
-		</div>
-		
- 		<div class="nav navbar-nav navbar-right">
-			<div class="dropdown">
-				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-				<% if(user == null) { %>
-					guest
-				<% } else { %>
-					<%= user %>
+			
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="movies.jsp">Home</a>
+				<% if(user != null )
+					
+					// it's a nice crash at logout if don't make the != null check first_______WHY???
+					
+					if(user.equals("admin")) { %>
+					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 				<% } %>
+				</ul>
+			</div>
+			
+	 		<div class="nav navbar-nav navbar-right">
+				<div class="dropdown">
+					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+					<% if(user == null) { %>
+						guest
+					<% } else { %>
+						<%= user %>
+					<% } %>
 					<span class="caret"></span></button>
 					<ul class="dropdown-menu" >
 						<li>
@@ -66,15 +66,14 @@
           					</li>
           					<% } %>
 					</ul>
+				</div>
 			</div>
 		</div>
 	</nav>
 	
 	<div class="container">
-	
-	<fieldset>
+		<fieldset>
 			<legend>Search Form</legend>
-
 			<form action="SearchServlet" method="GET">
 				<div class="col-sm-8">
 					<div class="form-group">
@@ -118,7 +117,7 @@
 			<div class="movie-container">
 				<ul class="list-group">				
 					<%
-						for (Movie movie : movieBean.getMovies()) {
+						Movie movie = movieBean.getMovies().get(0);
 					%>
 					<li class="list-group-item">
 						<div class="row">
@@ -135,24 +134,20 @@
 								<p> Storyline:
 									<%=movie.getDescription()%>
 								</p>
-							<% if(user != null )
-							// it's a nice crash at logout if don't make the != null check first_______WHY???
-							if(user.equals("admin")) { %>
-							<form method="post" action="MovieDeleteServlet">
+							<% if("admin".equals(user)) { %>
+							<form method="post" action="MovieDelete">
 								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
+							</form>
+							<form method="post" action="MovieUpdate">
+								<button type="submit" class="btn btn-primary" name="updateMovie" value="<%=movie.getId()%>">Update</button>
 							</form>
 							<% } %>
 							</div>
 						</div>
 					</li>
-					<%
-						}
-					%>
 				</ul>
 			</div>
 		</fieldset>
 	</div>
-	
-	
 </body>
 </html>

@@ -17,11 +17,12 @@ import eu.ubis.fiimdb.model.Movie;
 public class MovieInsertServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Movie movie = new Movie();
+		int[] movieGenreIds;
 		
 		movie.setName(request.getParameter("name"));
 		movie.setRating(Double.parseDouble(request.getParameter("rating")));
@@ -29,9 +30,8 @@ public class MovieInsertServlet extends HttpServlet {
 		movie.setCasting(request.getParameter("casting"));
 		
 		String myDate = request.getParameter("releaseDate");
-		System.out.println(myDate);
 		SimpleDateFormat parseDate = new java.text.SimpleDateFormat("dd-MM-yyyy");
-		java.util.Date date = null;
+		Date date = null;
 		try {
 			date = (Date) parseDate.parse(myDate);
 			
@@ -43,16 +43,14 @@ public class MovieInsertServlet extends HttpServlet {
 		movie.setDescription(request.getParameter("description"));
 		movie.setWriter(request.getParameter("writer"));
 		
-		
 		String[] genreIdStrings = request.getParameterValues("genres");
-		int[] movieGenreIds = new int[genreIdStrings.length];
+		movieGenreIds = new int[genreIdStrings.length];
 		for(int i = 0; i < genreIdStrings.length; i++) {
 			movieGenreIds[i] = Integer.parseInt(genreIdStrings[i].trim());
 		}
 		
    		MovieBean movieB = new MovieBean();
 		movieB.insertMovie(movie, movieGenreIds);
-		
-		response.sendRedirect("movies.jsp");
+   		response.sendRedirect("movies.jsp");
 	}
 }

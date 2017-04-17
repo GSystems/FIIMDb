@@ -119,14 +119,15 @@
 								<%=movie.getDescription()%>
 							</p>
 						
-							<form method="post" action="MovieDetailsServlet">
+							<form method="post" action="MovieDetails">
 								<button type="submit" class="btn btn-primary" name="detailsButton" value="<%=movie.getId()%>">Details</button>
 							</form>
-							<% if(user != null )
-							// it's a nice crash at logout if don't make the != null check first_______WHY???
-							if(user.equals("admin")) { %>
-							<form method="post" action="MovieDeleteServlet">
+							<% if("admin".equals(user)) { %>
+							<form method="post" action="MovieDelete">
 								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
+							</form>
+							<form method="post" action="MovieUpdate">
+								<button type="submit" class="btn btn-primary" name="updateMovie" value="<%=movie.getId()%>">Update</button>
 							</form>
 							<% } %>
 						</div>

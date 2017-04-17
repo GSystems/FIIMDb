@@ -52,7 +52,6 @@
 	</nav>
 	
 		<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
-
 	
 	<div class="container">
 		<fieldset>

@@ -74,6 +74,19 @@ public class MovieService {
 		return movies;
 	}
 	
+	public Movie getMovieById(int id) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		entityManager.getTransaction().begin();
+		MovieDao movieDao = entityManager.find(MovieDao.class, id);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		emf.close();
+		Movie movie = mapMovieDaoToMovie(movieDao);
+		return movie;
+	}
+	
+	//DELETE WITH JPA
 	public void deleteMovie(int id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
@@ -82,18 +95,42 @@ public class MovieService {
 		entityManager.remove(movie);
 		entityManager.getTransaction().commit();
 		entityManager.close();
+		emf.close();		
+	}
+	
+	//UPDATE WITH JPA
+	public void updateMovie(Movie movie, int[] movieGenreIds, int id) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		entityManager.getTransaction().begin();
+		MovieDao movieDao = new MovieDao();
+		movieDao = entityManager.find(MovieDao.class, id);
+		
+		movieDao.setName(movie.getName());
+		movieDao.setCasting(movie.getCasting());
+		movieDao.setDescription(movie.getDescription());
+		movieDao.setLength(movie.getLength());
+		movieDao.setRating(movie.getRating());
+		movieDao.setWriter(movie.getWriter());
+		movieDao.setDirector(movie.getDirector());
+		List<GenreDao> movieGenres = new ArrayList<>();
+		for(int movieGenreId : movieGenreIds) {
+			GenreDao movieGenre = new GenreDao();
+			movieGenre.setId(movieGenreId);
+			movieGenres.add(movieGenre);
+		}
+		movieDao.setGenres(movieGenres);		
+		
+		entityManager.getTransaction().commit();
+		entityManager.close();
 		emf.close();
-		
-		
 	}
 	
 	//INSERT WITH JPA
 	public void insertMovie(Movie movie, int[] movieGenreIds) {
 		MovieDao movieDao = mapMovieModelToDao(movie);
-		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
-		
 		List<GenreDao> movieGenres = new ArrayList<>();
 		for(int movieGenreId : movieGenreIds) {
 			GenreDao movieGenre = new GenreDao();
@@ -121,5 +158,19 @@ public class MovieService {
 		movieDao.setDescription(movie.getDescription());
 		movieDao.setWriter(movie.getWriter());		
 		return movieDao;
+	}
+	
+	private Movie mapMovieDaoToMovie(MovieDao movieDao) {
+		Movie movie = new Movie();
+		movie.setId(movieDao.getId());
+		movie.setReleaseDate(movieDao.getReleaseDate());
+		movie.setName(movieDao.getName());
+		movie.setRating(movieDao.getRating());
+		movie.setLength(movieDao.getLength());
+		movie.setCasting(movieDao.getCasting());
+		movie.setDirector(movieDao.getDirector());
+		movie.setDescription(movieDao.getDescription());
+		movie.setWriter(movieDao.getWriter());		
+		return movie;
 	}
 }

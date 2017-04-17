@@ -34,16 +34,17 @@ public class MovieBean {
 		return genreService.getGenres();
 	}
 	
-	public void getSelectedMovie(int id) {
-		movies = movieService.getMovies();
-		Movie movie = new Movie();
-		movie = movies.get(id);
+	public void movieDetails(int id) {
 		movies.clear();
-		movies.add(movie);
+		movies.add(movieService.getMovieById(id));
 	}
 	
 	public void deleteMovie(int id) {
 		movieService.deleteMovie(id);
 		movies = movieService.getMovies();
+	}
+	
+	public void updateMovie(Movie movie, int[] movieGenreIds, int id) {
+		movieService.updateMovie(movie, movieGenreIds, id);
 	}
 }

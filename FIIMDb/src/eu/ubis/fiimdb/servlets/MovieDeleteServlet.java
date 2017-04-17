@@ -13,7 +13,7 @@ import eu.ubis.fiimdb.controller.MovieBean;
 /**
  * Servlet implementation class MovieDeleteServlet
  */
-@WebServlet("/MovieDeleteServlet")
+@WebServlet("/MovieDelete")
 public class MovieDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
