@@ -9,71 +9,66 @@ import javax.persistence.Persistence;
 
 import eu.ubis.fiimdb.db.dao.GenreDao;
 import eu.ubis.fiimdb.db.dao.MovieDao;
-import eu.ubis.fiimdb.db.entity.GenreEntity;
-import eu.ubis.fiimdb.db.entity.MovieEntity;
-import eu.ubis.fiimdb.db.repository.MovieRepository;
-import eu.ubis.fiimdb.db.repository.RepositoryFactory;
 import eu.ubis.fiimdb.model.Movie;
 
 public class MovieService {
 	
+	//GET ALL MOVIES WITH JPA
+	@SuppressWarnings("unchecked")
 	public List<Movie> getMovies() {
-		MovieRepository movieRepository = RepositoryFactory.getMovieRepository();
-		List<MovieEntity> movieEntities = movieRepository.getAllMovies();
-
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
 		List<Movie> movies = new ArrayList<Movie>();
-		for (MovieEntity movieEntity : movieEntities) {
-			Movie movie = mapMovieEntityToModel(movieEntity);
-			movies.add(movie);
-		}
+		List<MovieDao> moviesDao = new ArrayList<MovieDao>();
+		entityManager.getTransaction().begin();
+		moviesDao = entityManager.createQuery("SELECT m FROM MovieDao m").getResultList();
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		emf.close();
+		for(MovieDao movie : moviesDao)
+			movies.add(mapMovieDaoToMovie(movie));
 		return movies;
 	}
-
-	public Movie mapMovieEntityToModel(MovieEntity movieEntity) {
-		Movie movie = new Movie();
-		movie.setId(movieEntity.getId());
-		movie.setReleaseDate(movieEntity.getReleaseDate());
-		movie.setName(movieEntity.getName());
-		movie.setRating(movieEntity.getRating());
-		movie.setLength(movieEntity.getLength());
-		movie.setCasting(movieEntity.getCasting());
-		movie.setDirector(movieEntity.getDirector());
-		movie.setDescription(movieEntity.getDescription());
-		movie.setWriter(movieEntity.getWriter());
-		movie.setGenre(mapGenreEntityListToMovie(movieEntity.getGenres()));
-		return movie;
-	}
 	
-	private String mapGenreEntityListToMovie(List<GenreEntity> genreEntities) {
-		if (genreEntities.size() <= 0) {
-			return "";
+	//SEARCH WITH JPA
+	@SuppressWarnings("unchecked")
+	public List<Movie> search(String criteria, String value) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityMgr  = emf.createEntityManager();
+		List<Movie> movies = new ArrayList<Movie>();
+		List<MovieDao> moviesDao = new ArrayList<MovieDao>();
+		String query = "SELECT m FROM MovieDao m";
+		switch(criteria) {
+		case "name":
+			query += " WHERE m.name LIKE '%" + value + "%'";
+			break;
+		case "genre":
+			query = "SELECT m FROM MovieDao m  WHERE genre.type LIKE '%" + value + "%'";
+			break;
+		case "year":
+			query += " WHERE year(releaseDate) = " + Integer.parseInt(value);
+			break;
+		case "description":
+			query += " WHERE m.description LIKE '%" + value + "%'";
+			break;
+		default:
+			break;
 		}
-		StringBuilder stringBuilder = new StringBuilder();
-		for (GenreEntity ge : genreEntities) {
-			stringBuilder.append(ge.getType());
-			if (genreEntities.indexOf(ge) != genreEntities.size() - 1) {
-				stringBuilder.append(", ");
+		entityMgr.getTransaction().begin();
+		moviesDao = entityMgr.createQuery(query).getResultList();
+		entityMgr.getTransaction().commit();
+		entityMgr.close();
+		emf.close();
+		
+		for(MovieDao movie : moviesDao) {
+			if (!movies.contains(movie)) {
+				movies.add(mapMovieDaoToMovie(movie));
 			}
 		}
-		return stringBuilder.toString();
-	}
-	
-	public List<Movie> search(String criteria, String value) {
-		MovieRepository movieRepository = RepositoryFactory.getMovieRepository();
-		List<MovieEntity> movieEntities = movieRepository.search(criteria, value);
-
-		return transformMovieEntityToMovie(movieEntities);
-	}
-	
-	private List<Movie> transformMovieEntityToMovie(List<MovieEntity> movieEntities) {
-		List<Movie> movies = new ArrayList<Movie>();
-		for (MovieEntity movieEntity : movieEntities) {
-			Movie movie = mapMovieEntityToModel(movieEntity);
-			movies.add(movie);
-		}
 		return movies;
 	}
 	
+	//GET A MOVIE WITH JPA
 	public Movie getMovieById(int id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
@@ -102,8 +97,9 @@ public class MovieService {
 	public void updateMovie(Movie movie, int[] movieGenreIds, int id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
-		entityManager.getTransaction().begin();
 		MovieDao movieDao = new MovieDao();
+		
+		entityManager.getTransaction().begin();
 		movieDao = entityManager.find(MovieDao.class, id);
 		
 		movieDao.setName(movie.getName());
@@ -169,8 +165,29 @@ public class MovieService {
 		movie.setLength(movieDao.getLength());
 		movie.setCasting(movieDao.getCasting());
 		movie.setDirector(movieDao.getDirector());
-		movie.setDescription(movieDao.getDescription());
-		movie.setWriter(movieDao.getWriter());		
+		movie.setWriter(movieDao.getWriter());
+		if (movieDao.getDescription() != null) {
+			movie.setDescription(movieDao.getDescription());
+		} else {
+			movie.setDescription("");
+		}
+		
+		String genres = mapGenreEntityListToMovie(movieDao.getGenres());
+		movie.setGenre(genres);
 		return movie;
+	}
+	
+	private String mapGenreEntityListToMovie(List<GenreDao> genreDao) {
+		if (genreDao.size() <= 0) {
+			return "";
+		}
+		StringBuilder stringBuilder = new StringBuilder();
+		for (GenreDao ge : genreDao) {
+			stringBuilder.append(ge.getType());
+			if (genreDao.indexOf(ge) != genreDao.size() - 1) {
+				stringBuilder.append(", ");
+			}
+		}
+		return stringBuilder.toString();
 	}
 }

@@ -21,23 +21,43 @@ public class SearchServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		MovieBean movie = new MovieBean();
-		String searchedValue = request.getParameter("searchedValue");
+		String searchValue   = request.getParameter("searchedValue");
 		String searchType 	 = request.getParameter("searchType");
 		
 		switch(searchType) {
 			case "name":
-				movie.search("name", searchedValue);
+				movie.search("name", searchValue);
 				break;
 			case "genre":
-				movie.search("genre", searchedValue);
+				movie.search("genre", searchValue);
 				break;
 			case "year":
-				movie.search("year", searchedValue);
+				movie.search("year", searchValue);
 				break;
+			case "description":
+				movie.search("description", searchValue);
 		}
 		request.getRequestDispatcher("/movie-searched.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		MovieBean movie = new MovieBean();
+		String searchValue   = request.getParameter("searchedValue");
+		String searchType 	 = request.getParameter("searchType");
+		
+		switch(searchType) {
+			case "name":
+				movie.search("name", searchValue);
+				break;
+			case "genre":
+				movie.search("genre", searchValue);
+				break;
+			case "year":
+				movie.search("year", searchValue);
+				break;
+			case "description":
+				movie.search("description", searchValue);
+		}
+		request.getRequestDispatcher("/movie-searched.jsp").forward(request, response);
 	}
 }

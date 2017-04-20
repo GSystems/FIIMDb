@@ -27,11 +27,7 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="movies.jsp">Home</a>
-				<% if(user != null )
-					
-					// it's a nice crash at logout if don't make the != null check first_______WHY???
-					
-					if(user.equals("admin")) { %>
+				<% if("admin".equals(user)) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 				<% } %>
 				</ul>
@@ -54,17 +50,22 @@
 	           				</form>
            				</li>
 						<li>
-          						<form action="register.jsp">
+          						<form action="<%=response.encodeURL("UserServlet?action=register") %>">
           							<button type="submit" class="btn btn-default center-block">Register</button>
     							</form>
       						</li>
          				<% } else  { %>
-         				<li>
-							<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
-           						<button type="submit" class="btn btn-default center-block">Logout</button>
-	           				</form>
-          					</li>
-          					<% } %>
+	         				<li>
+	        					<form action="<%=response.encodeURL("UserServlet?action=userProfile") %>" method="post">
+	        						<button type="submit" class="btn btn-default center-block">Profile</button> 
+	        					</form>
+	       					</li>
+	         				<li>
+								<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
+	           						<button type="submit" class="btn btn-default center-block">Logout</button>
+		           				</form>
+	        				</li>
+        				<% } %>
 					</ul>
 				</div>
 			</div>
@@ -105,6 +106,11 @@
 					<div class="col-sm-4">
 						<label class="radio-inline"> 
 							<input type="radio" class="form-check-input" name="searchType" value="year" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("year") == true ? "checked" : ""%>/> By Release Year
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="radio-inline"> 
+							<input type="radio" class="form-check-input" name="searchType" value="description" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("description") == true ? "checked" : ""%>/> By Description
 						</label>
 					</div>
 				</div>

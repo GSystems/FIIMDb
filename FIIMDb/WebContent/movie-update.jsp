@@ -59,6 +59,11 @@
      							</form>
        						</li>
 	         				<% } else  { %>
+	        				<li>
+	        					<form action="<%=response.encodeURL("UserServlet?action=userProfile") %>" method="post">
+	        						<button type="submit" class="btn btn-default center-block">Profile</button> 
+	        					</form>
+        					</li>
 	         				<li>
 								<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
 	           						<button type="submit" class="btn btn-default center-block">Logout</button>

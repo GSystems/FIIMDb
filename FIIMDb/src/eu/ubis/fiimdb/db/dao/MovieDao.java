@@ -13,11 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(schema="fiimdb", name="movie")
-//@NamedQuery(name="getAllMovies", query="SELECT m FROM MovieDao m")
+@NamedQuery(name="getAllMovies", query="SELECT m FROM MovieDao m")
 public class MovieDao {
 	
 	@Id

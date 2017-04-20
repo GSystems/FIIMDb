@@ -18,52 +18,58 @@
 
 	<% String user = request.getRemoteUser(); %>
 	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<div class="navbar-brand">
-				<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<div class="navbar-brand">
+					<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
+				</div>
 			</div>
-		</div>
-		
+			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="movies.jsp">Home</a>
-
+	
 				<% if("admin".equals(user)) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 				<% } %>
 				</ul>
 			</div>
-			
+				
 	 		<div class="nav navbar-nav navbar-right">
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-					<% if(user == null) { %>
-						guest
-					<% } else { %>
-						<%= user %>
-					<% } %>
-						<span class="caret"></span></button>
-						<ul class="dropdown-menu" >
-							<li>
+						<% if(user == null) { %>
+							guest
+						<% } else { %>
+							<%= user %>
+						<% } %>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" >
+						<li>
 							<% if(user == null) { %>
-							 	<form action="<%=response.encodeURL("UserServlet?action=login") %>" method="post">
-		           					<button type="submit" class="btn btn-default center-block">Login</button>
-		           				</form>
-	           				</li>
-							<li>
-           						<form action="register.jsp">
-           							<button type="submit" class="btn btn-default center-block">Register</button>
-     							</form>
-       						</li>
-	         				<% } else  { %>
-	         				<li>
-								<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
-	           						<button type="submit" class="btn btn-default center-block">Logout</button>
-		           				</form>
-           					</li>
-           					<% } %>
-						</ul>
+						 	<form action="<%=response.encodeURL("UserServlet?action=login") %>" method="post">
+	           					<button type="submit" class="btn btn-default center-block">Login</button>
+	           				</form>
+           				</li>
+						<li>
+       						<form action="<%=response.encodeURL("UserServlet?action=register") %>" method="post">
+       							<button type="submit" class="btn btn-default center-block">Register</button>
+   							</form>
+   						</li>
+        				<% } else  { %>
+        				<li>
+        					<form action="<%=response.encodeURL("UserServlet?action=userProfile") %>" method="post">
+        						<button type="submit" class="btn btn-default center-block">Profile</button> 
+        					</form>
+        				</li>
+         				<li>
+							<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
+           						<button type="submit" class="btn btn-default center-block">Logout</button>
+	           				</form>
+       					</li>
+      					<% } %>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -73,7 +79,7 @@
 		<fieldset>
 			<legend>Search Form</legend>
 
-			<form action="SearchServlet" method="GET">
+			<form action="SearchServlet" method="POST">
 				<div class="col-sm-8">
 					<div class="form-group">
 						<% if (request.getParameter("searchedValue") == null) { %>
@@ -106,6 +112,13 @@
 							<input type="radio" class="form-check-input" name="searchType" value="year" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("year") == true ? "checked" : ""%>/> By Release Year
 						</label>
 					</div>
+					
+					<div class="col-sm-4">
+						<label class="radio-inline"> 
+							<input type="radio" class="form-check-input" name="searchType" value="description" <%=request.getAttribute("searchType") != null && request.getAttribute("searchType").equals("description") == true ? "checked" : ""%>/> By Description
+						</label>
+					</div>
+					
 				</div>
 			</form>
 		</fieldset>

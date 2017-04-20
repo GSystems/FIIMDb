@@ -39,6 +39,7 @@ public class MovieRepository {
 				}
 
 				movie.setWriter(resultSet.getString("writer"));
+				
 				GenreEntity genre = new GenreEntity();
 				genre.setId(resultSet.getInt("id_genre"));
 				genre.setType(resultSet.getString("type"));
@@ -72,6 +73,9 @@ public class MovieRepository {
 			break;
 		case "year":
 			query += "year(m.release_date) = " + Integer.parseInt(value);
+			break;
+		case "description":
+			query += "m.description LIKE '%" + value + "%'";
 			break;
 		default:
 			query = GET_ALL_MOVIES_SQL;
