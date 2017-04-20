@@ -17,7 +17,6 @@ public class UserService {
 	@SuppressWarnings("unchecked")
 	public User getUserByUsername(String username) {
 		List<UserDao> userDao = new ArrayList<UserDao>();
-		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
 		entityManager.getTransaction().begin();
@@ -25,8 +24,24 @@ public class UserService {
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		emf.close();
-		user = mapUserDaoToUser(userDao.get(0));
+		if(userDao.get(0) != null)
+			user = mapUserDaoToUser(userDao.get(0));
 		return user;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private boolean checkIfUserExists(String type, String value) {
+		List<UserDao> userDao = new ArrayList<UserDao>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		entityManager.getTransaction().begin();
+		userDao = entityManager.createQuery("select u from UserDao u where u." + type + " LIKE '" + value + "'").getResultList();
+		entityManager.close();
+		emf.close();
+		if(userDao != null)
+			return true;
+		else
+			return false;
 	}
 	
 	public void updateUserInfo(User user, String username) {
@@ -35,7 +50,7 @@ public class UserService {
 		UserDao userDao = new UserDao();
 		
 		entityManager.getTransaction().begin();
-
+		
 		int id = UserService.user.getId();
 		userDao = entityManager.find(UserDao.class, id);
 		userDao.setUsername(user.getUsername());
@@ -54,7 +69,6 @@ public class UserService {
 		UserDao userDao = new UserDao();
 		
 		entityManager.getTransaction().begin();
-		
 		int id = UserService.user.getId();
 		userDao = entityManager.find(UserDao.class, id);
 		if(oldPassword.equals(userDao.getPassword()))
@@ -63,6 +77,24 @@ public class UserService {
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		emf.close();	
+	}
+	
+	public void insertNewUser(User newUser) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		UserDao userDao = new UserDao();
+		userDao = mapUserToUserDao(newUser);
+		
+		boolean usernameExists = checkIfUserExists("username", newUser.getUsername());
+		boolean emailExists = checkIfUserExists("email", newUser.getEmail());
+		
+		if(usernameExists == false && emailExists == false) {
+			entityManager.getTransaction().begin();
+			entityManager.persist(userDao);
+			entityManager.getTransaction().commit();
+		}
+		entityManager.close();
+		emf.close();
 	}
 	
 	private User mapUserDaoToUser(UserDao userDao) {
@@ -74,5 +106,16 @@ public class UserService {
 		user.setEmail(userDao.getEmail());
 		user.setUsername(userDao.getUsername());		
 		return user;
+	}
+	
+	private UserDao mapUserToUserDao(User user) {
+		UserDao userDao = new UserDao();
+		userDao.setId(user.getId());
+		userDao.setFirstname(user.getFirstname());
+		userDao.setLastname(user.getLastname());
+		userDao.setPassword(user.getPassword());
+		userDao.setEmail(user.getEmail());
+		userDao.setUsername(user.getUsername());		
+		return userDao;
 	}
 }

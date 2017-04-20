@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+<%@ page import="eu.ubis.fiimdb.model.User" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,4 +53,43 @@
 		</div>
 	</nav>
 	
-	
+	<div class="container">
+	    <div class="row vertical-offset-50">
+	    	<div class="col-md-4 col-md-offset-4">
+	    		<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title">Register</h3>
+				 	</div>
+				  	<div class="panel-body">
+				    	<form accept-charset="UTF-8" action="UserServlet?action=insertNewUser" method="post">
+	                    <fieldset>
+				    	  	<div class="form-group">
+				    		    <input class="form-control" placeholder="Username" name="r_username" type="text">
+				    		</div>
+				    		<div class="form-group">
+				    			<input class="form-control" placeholder="Password" name="r_password" type="password" value="">
+				    		</div>
+				    		<div class="form-group">
+				    			<input class="form-control" placeholder="First Name" name="r_firstname" type="text">
+				    		</div>
+				    		<div class="form-group">
+				    			<input class="form-control" placeholder="Last Name" name="r_lastname" type="text">
+				    		</div>
+				    		<div class="form-group">
+				    			<input class="form-control" placeholder="Email" name="r_email" type="text">
+				    		</div>
+
+				    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Register">
+							 	<div class="span12">
+									<div class="alert alert-danger">
+									 	Username or Password is incorrect!
+									</div>
+							    </div>
+				    	</fieldset>
+				      	</form>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+		

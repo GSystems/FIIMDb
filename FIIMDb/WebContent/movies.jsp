@@ -21,7 +21,7 @@
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<div class="navbar-brand">
-					<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
+					<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017 </a>
 				</div>
 			</div>
 			

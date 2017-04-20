@@ -24,4 +24,8 @@ public class UserBean {
 	public void resetPassword(String oldPassword, String newPassword) {
 		userService.resetPassword(oldPassword, newPassword);
 	}
+	
+	public void insertNewUser(User user) {
+		userService.insertNewUser(user);
+	}
 }

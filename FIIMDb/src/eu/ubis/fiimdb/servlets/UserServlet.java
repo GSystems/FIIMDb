@@ -55,6 +55,9 @@ public class UserServlet extends HttpServlet {
 			case "resetPassword":
 				resetPassword(request, response);
 				break;
+			case "insertNewUser":
+				insertNewUser(request, response);
+				break;
 		}
 	}
 
@@ -100,12 +103,29 @@ public class UserServlet extends HttpServlet {
 		response.sendRedirect("user-profile.jsp");
 	}
 	
+	public void insertNewUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		UserBean userBean = new UserBean();
+		User user = getNewUserInfo(request, response);
+		userBean.insertNewUser(user);
+		response.sendRedirect("movies.jsp");
+	}
+	
 	private User getUserPersonalInfo(HttpServletRequest request, HttpServletResponse response) {
 		User user = new User();
 		user.setUsername(request.getParameter("username"));
 		user.setFirstname(request.getParameter("firstname"));
 		user.setLastname(request.getParameter("lastname"));
 		user.setEmail(request.getParameter("email"));
+		return user;
+	}
+	
+	private User getNewUserInfo(HttpServletRequest request, HttpServletResponse response) {
+		User user = new User();
+		user.setUsername(request.getParameter("r_username"));
+		user.setPassword(request.getParameter("r_password"));
+		user.setFirstname(request.getParameter("r_firstname"));
+		user.setLastname(request.getParameter("r_lastname"));
+		user.setEmail(request.getParameter("r_email"));
 		return user;
 	}
 }
