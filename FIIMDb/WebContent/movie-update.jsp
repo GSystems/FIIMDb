@@ -20,23 +20,23 @@
 	
 	<% String user = request.getRemoteUser(); %>
 	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<div class="navbar-brand">
-				<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<div class="navbar-brand">
+					<a href="#"> Java Awesome Training Logo &copy; FII Practic 2017</a>
+				</div>
 			</div>
-		</div>
-		
+			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="movies.jsp">Home</a>
-
+	
 				<% if("admin".equals(user)) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 				<% } %>
 				</ul>
 			</div>
-			
+				
 	 		<div class="nav navbar-nav navbar-right">
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -54,22 +54,22 @@
 		           				</form>
 	           				</li>
 							<li>
-           						<form action="register.jsp">
-           							<button type="submit" class="btn btn-default center-block">Register</button>
-     							</form>
-       						</li>
+          						<form action="register.jsp">
+          							<button type="submit" class="btn btn-default center-block">Register</button>
+    							</form>
+      						</li>
 	         				<% } else  { %>
 	        				<li>
 	        					<form action="<%=response.encodeURL("UserServlet?action=userProfile") %>" method="post">
 	        						<button type="submit" class="btn btn-default center-block">Profile</button> 
 	        					</form>
-        					</li>
+	       					</li>
 	         				<li>
 								<form action="<%=response.encodeURL("UserServlet?action=logout") %>" method="post">
 	           						<button type="submit" class="btn btn-default center-block">Logout</button>
 		           				</form>
-           					</li>
-           					<% } %>
+          					</li>
+         					<% } %>
 						</ul>
 				</div>
 			</div>
@@ -82,7 +82,7 @@
 			<% 	movieBean.getMovies();
 				Movie movie = movieBean.getMovies().get(0);
 			%>
-			<form method="post" action="MovieUpdate">
+			<form method="post" action="MovieServlet?action=saveUpdates">
 				
 				<input type="hidden" name="movieId" value="<%=movie.getId()%>">
 				
@@ -140,7 +140,8 @@
 							%>
 						</select>
 				</div>
-				<button type="submit" name="action" value="update" class="btn btn-primary"> Update </button>
+				
+					<button type="submit" class="btn btn-primary"> Update </button>
 			</form>
 		</fieldset>
 	</div>

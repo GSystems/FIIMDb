@@ -61,7 +61,7 @@
 	<div class="container">
 		<fieldset>
 			<legend> Movie details</legend>
-			<form method="post" action="MovieInsert">
+			<form method="post" action="MovieServlet?action=insert">
 				
 				<div class="form-group">
 					<label for="name"> Name: </label>
@@ -70,7 +70,7 @@
 				
 				<div class="form-group">
 					<label for="releaseDate"> Release Date: </label>
-					<input type="date" name="releaseDate" class="form-control" id="releaseDate"> 
+					<input type="date" name="releaseDate" class="form-control" id="releaseDate" placeholder="dd-MM-yyyy"> 
 				</div>
 				
 				<div class="form-group">

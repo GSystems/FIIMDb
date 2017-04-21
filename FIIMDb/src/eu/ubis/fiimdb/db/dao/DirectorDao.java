@@ -1,5 +1,6 @@
 package eu.ubis.fiimdb.db.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(schema="fiimdb", name="director")
-@NamedQuery(name="getAllDirector", query="SELECT d FROM DirectorDao d")
+@NamedQuery(name="getAllDirectors", query="SELECT d FROM DirectorDao d")
 public class DirectorDao {
 	
 	@Id
@@ -30,6 +31,10 @@ public class DirectorDao {
 		joinColumns = @JoinColumn(name="id_movie", referencedColumnName="id"),
 		inverseJoinColumns = @JoinColumn(name="id_director", referencedColumnName="id"))
 	private List<MovieDao> movies;
+	
+	public DirectorDao() {
+		this.movies = new ArrayList<>();
+	}
 	
 	public int getId() {
 		return id;

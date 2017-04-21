@@ -80,15 +80,16 @@
 				    		</div>
 
 				    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Register">
+							 	
+						 	<% if ("true".equals(request.getParameter("flag"))) { %>
 							 	<div class="span12">
 									<div class="alert alert-danger">
 									 	<!-- Username or Password is incorrect! -->
-									 	
-									 	<% if ("true".equals(request.getParameter("flag"))) { %>
 									 		User or email exists
-								 		<% } %>
+								
 									</div>
 							    </div>
+				     		<% } %>
 				    	</fieldset>
 				      	</form>
 				    </div>

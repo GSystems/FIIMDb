@@ -43,8 +43,11 @@ public class UserService {
 		userDao = entityManager.createQuery("select u from UserDao u where u." + type + " LIKE '" + value + "'").getResultList();
 		entityManager.close();
 		emf.close();
-		if(!userDao.isEmpty())
-			throw new SQLException("exista"); 
+		
+		if(!userDao.isEmpty() && "username".equals(type))
+			throw new SQLException("this username already exists");
+		else if(!userDao.isEmpty() && "email".equals(type))
+			throw new SQLException("this email already exists");
 		else
 			return false;
 	}

@@ -4,15 +4,12 @@
   <welcome-file-list>
     <welcome-file>movies.jsp</welcome-file>
   </welcome-file-list>
-
   <security-role>
     <role-name>admin</role-name>
   </security-role>
-
   <security-role>
     <role-name>user</role-name>
   </security-role>
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name></web-resource-name>
@@ -26,7 +23,6 @@
       <role-name>admin</role-name>
     </auth-constraint>
   </security-constraint>
- 
   <security-constraint>
     <web-resource-collection>
       <web-resource-name></web-resource-name>
@@ -37,7 +33,6 @@
       <role-name>user</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <login-config>
     <auth-method>FORM</auth-method>
     <form-login-config>

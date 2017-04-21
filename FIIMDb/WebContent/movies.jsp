@@ -141,20 +141,21 @@
 							Release date:
 							<%=movie.getReleaseDate()%><br /> Director:
 							<%=movie.getDirector()%><br /> Rating:
-							<%=movie.getRating()%><br /> Genre: 
+							<%=movie.getRating()%><br /> Length:
+							<%=movie.getLength() %><br /> Genre: 
 							<%=movie.getGenre()%> <br />
 							<p>
 								Storyline:
 								<%=movie.getDescription()%>
 							</p>
-							<form method="post" action="MovieDetails">
+							<form method="post" action="MovieServlet?action=details">
 								<button type="submit" class="btn btn-primary" name="detailsButton" value="<%=movie.getId()%>">Details</button>
 							</form>
 							<% if("admin".equals(user)) { %>
-							<form method="post" action="MovieDelete">
+							<form method="post" action="MovieServlet?action=delete">
 								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
 							</form>
-							<form method="post" action="MovieUpdate">
+							<form method="post" action="MovieServlet?action=update">
 								<button type="submit" class="btn btn-primary" name="updateMovie" value="<%=movie.getId()%>">Update</button>
 							</form>
 							<% } %>

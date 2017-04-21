@@ -141,10 +141,10 @@
 									<%=movie.getDescription()%>
 								</p>
 							<% if("admin".equals(user)) { %>
-							<form method="post" action="MovieDelete">
+							<form method="post" action="MovieServlet?action=delete">
 								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
 							</form>
-							<form method="post" action="MovieUpdate">
+							<form method="post" action="MovieServlet?action=update">
 								<button type="submit" class="btn btn-primary" name="updateMovie" value="<%=movie.getId()%>">Update</button>
 							</form>
 							<% } %>
