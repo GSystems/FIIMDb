@@ -1,11 +1,16 @@
 package eu.ubis.fiimdb.service;
 
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import eu.ubis.fiimdb.db.dao.UserDao;
 import eu.ubis.fiimdb.model.User;
@@ -30,7 +35,7 @@ public class UserService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private boolean checkIfUserExists(String type, String value) {
+	private boolean checkIfUserExists(String type, String value) throws SQLException {
 		List<UserDao> userDao = new ArrayList<UserDao>();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
@@ -38,8 +43,8 @@ public class UserService {
 		userDao = entityManager.createQuery("select u from UserDao u where u." + type + " LIKE '" + value + "'").getResultList();
 		entityManager.close();
 		emf.close();
-		if(userDao != null)
-			return true;
+		if(!userDao.isEmpty())
+			throw new SQLException("exista"); 
 		else
 			return false;
 	}
@@ -63,23 +68,41 @@ public class UserService {
 		emf.close();
 	}
 	
-	public void resetPassword(String oldPassword, String newPassword) {
+	public void resetPassword(String oldPassword, String newPassword) throws NoSuchAlgorithmException {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
 		UserDao userDao = new UserDao();
 		
 		entityManager.getTransaction().begin();
+		
 		int id = UserService.user.getId();
 		userDao = entityManager.find(UserDao.class, id);
-		if(oldPassword.equals(userDao.getPassword()))
-			userDao.setPassword(newPassword);
+
+		String a = null;
 		
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			a = new HexBinaryAdapter().marshal(md.digest(oldPassword.getBytes(Charset.forName("UTF-8"))));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		
+		if(a.equals(userDao.getPassword())) {
+		    try {
+		        MessageDigest md = MessageDigest.getInstance("MD5");
+		        a = new HexBinaryAdapter().marshal(md.digest(newPassword.getBytes(Charset.forName("UTF-8"))));
+		    	userDao.setPassword(a);
+		    } catch (NoSuchAlgorithmException e) {
+		    	e.printStackTrace();
+		    }
+		}
+	
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		emf.close();	
 	}
 	
-	public void insertNewUser(User newUser) {
+	public void insertNewUser(User newUser) throws SQLException {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
 		UserDao userDao = new UserDao();
@@ -113,7 +136,14 @@ public class UserService {
 		userDao.setId(user.getId());
 		userDao.setFirstname(user.getFirstname());
 		userDao.setLastname(user.getLastname());
-		userDao.setPassword(user.getPassword());
+		String passwordHash = user.getPassword();
+	    try {
+	        MessageDigest md = MessageDigest.getInstance("MD5");
+	        String a = new HexBinaryAdapter().marshal(md.digest(passwordHash.getBytes(Charset.forName("UTF-8"))));
+	    	userDao.setPassword(a);
+	    } catch (NoSuchAlgorithmException e) {
+	    	e.printStackTrace();
+	    }
 		userDao.setEmail(user.getEmail());
 		userDao.setUsername(user.getUsername());		
 		return userDao;

@@ -1,6 +1,8 @@
 package eu.ubis.fiimdb.servlets;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,8 @@ import eu.ubis.fiimdb.model.User;
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static String error;
+	
 	/**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,7 +40,7 @@ public class UserServlet extends HttpServlet {
 		if(action.equals(null))
 			response.sendRedirect("movies.jsp");
 		
-		switch(action) {
+		switch (action) {
 			case "logout":
 				logout(request,response);
 				break;
@@ -53,7 +57,11 @@ public class UserServlet extends HttpServlet {
 				saveProfile(request, response);
 				break;
 			case "resetPassword":
-				resetPassword(request, response);
+				try {
+					resetPassword(request, response);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
 				break;
 			case "insertNewUser":
 				insertNewUser(request, response);
@@ -93,7 +101,7 @@ public class UserServlet extends HttpServlet {
 		response.sendRedirect("movies.jsp");
 	}
 	
-	private void resetPassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void resetPassword(HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {
 		UserBean userBean = new UserBean();
 		String oldPassword = request.getParameter("oldpassword");
 		String newPassword = request.getParameter("newpassword");
@@ -106,8 +114,15 @@ public class UserServlet extends HttpServlet {
 	public void insertNewUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		UserBean userBean = new UserBean();
 		User user = getNewUserInfo(request, response);
-		userBean.insertNewUser(user);
-		response.sendRedirect("movies.jsp");
+		try {
+			userBean.insertNewUser(user);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			error = e.getMessage();
+		}
+		if(error == null)
+			response.sendRedirect("movies.jsp");
+		else response.sendRedirect("register.jsp?flag=true");
 	}
 	
 	private User getUserPersonalInfo(HttpServletRequest request, HttpServletResponse response) {

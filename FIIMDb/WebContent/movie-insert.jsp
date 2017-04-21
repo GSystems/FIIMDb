@@ -70,7 +70,7 @@
 				
 				<div class="form-group">
 					<label for="releaseDate"> Release Date: </label>
-					<input type="text" name="releaseDate" class="form-control" id="releaseDate"> 
+					<input type="date" name="releaseDate" class="form-control" id="releaseDate"> 
 				</div>
 				
 				<div class="form-group">

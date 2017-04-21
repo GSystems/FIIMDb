@@ -1,5 +1,8 @@
 package eu.ubis.fiimdb.controller;
 
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+
 import eu.ubis.fiimdb.model.User;
 import eu.ubis.fiimdb.service.ServiceFactory;
 import eu.ubis.fiimdb.service.UserService;
@@ -21,11 +24,11 @@ public class UserBean {
 		userService.updateUserInfo(user, username);
 	}
 	
-	public void resetPassword(String oldPassword, String newPassword) {
+	public void resetPassword(String oldPassword, String newPassword) throws NoSuchAlgorithmException {
 		userService.resetPassword(oldPassword, newPassword);
 	}
 	
-	public void insertNewUser(User user) {
+	public void insertNewUser(User user) throws SQLException {
 		userService.insertNewUser(user);
 	}
 }

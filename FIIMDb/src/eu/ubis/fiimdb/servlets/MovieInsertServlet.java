@@ -1,8 +1,9 @@
 package eu.ubis.fiimdb.servlets;
 
 import java.io.IOException;
-import java.util.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,12 +33,13 @@ public class MovieInsertServlet extends HttpServlet {
 		String myDate = request.getParameter("releaseDate");
 		SimpleDateFormat parseDate = new java.text.SimpleDateFormat("dd-MM-yyyy");
 		Date date = null;
-		try {
-			date = (Date) parseDate.parse(myDate);
-			
-		} catch (java.text.ParseException e) {
-			e.printStackTrace();
-		}
+		
+			try {
+				date = (Date) parseDate.parse(myDate);
+			} catch (ParseException e) {
+				throw new ServletException("invalid");
+			}
+
 		movie.setReleaseDate(date);
 		movie.setDirector(request.getParameter("director"));
 		movie.setDescription(request.getParameter("description"));

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 20, 2017 at 05:11 PM
+-- Generation Time: Apr 21, 2017 at 10:15 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -19,6 +19,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `fiimdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `actor`
+--
+
+CREATE TABLE `actor` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `nationality` varchar(50) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `director`
+--
+
+CREATE TABLE `director` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `nationality` varchar(50) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -78,6 +106,28 @@ INSERT INTO `movie` (`ID`, `RELEASE_DATE`, `NAME`, `RATING`, `LENGTH`, `CASTING`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `movie_actor`
+--
+
+CREATE TABLE `movie_actor` (
+  `id_movie` int(11) NOT NULL,
+  `id_actor` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `movie_director`
+--
+
+CREATE TABLE `movie_director` (
+  `id_movie` int(11) NOT NULL,
+  `id_director` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `movie_genre`
 --
 
@@ -121,8 +171,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `USERNAME`, `PASSWORD`, `FIRSTNAME`, `LASTNAME`, `EMAIL`) VALUES
-(1, 'admin', 'admin', 'admin', 'admin', 'admin@yahoo.com'),
-(2, 'iulian', 'iulian', 'Gilca', 'Iulian', 'iulian.glk@yahoo.ro');
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'admin', 'admin@yahoo.com'),
+(2, 'iulian', 'B0B841D938EB014400284A704C786C85', 'Gilca', 'Iulian', 'iulian.glk@yahoo.ro'),
+(3, 'ghidus', 'fe7f25ceb544f0396947024a2b616040', 'ghidus', 'ghidus', 'ghidus@mycat.com');
 
 --
 -- Triggers `users`
@@ -152,11 +203,27 @@ CREATE TABLE `users_roles` (
 
 INSERT INTO `users_roles` (`username`, `rolename`) VALUES
 ('admin', 'admin'),
-('iulian', 'user');
+('iulian', 'user'),
+('ghidus', 'user'),
+('ala', 'user'),
+('md', 'user'),
+('jhasbfsdhfbskdfbwo', 'user');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `actor`
+--
+ALTER TABLE `actor`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `director`
+--
+ALTER TABLE `director`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `genre`
@@ -169,6 +236,20 @@ ALTER TABLE `genre`
 --
 ALTER TABLE `movie`
   ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `movie_actor`
+--
+ALTER TABLE `movie_actor`
+  ADD KEY `id_movie` (`id_movie`),
+  ADD KEY `id_actor` (`id_actor`);
+
+--
+-- Indexes for table `movie_director`
+--
+ALTER TABLE `movie_director`
+  ADD KEY `id_movie` (`id_movie`),
+  ADD KEY `id_director` (`id_director`);
 
 --
 -- Indexes for table `movie_genre`
@@ -190,6 +271,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `actor`
+--
+ALTER TABLE `actor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `director`
+--
+ALTER TABLE `director`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `genre`
 --
 ALTER TABLE `genre`
@@ -203,10 +294,24 @@ ALTER TABLE `movie`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `movie_actor`
+--
+ALTER TABLE `movie_actor`
+  ADD CONSTRAINT `movie_actor_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`ID`),
+  ADD CONSTRAINT `movie_actor_ibfk_2` FOREIGN KEY (`id_actor`) REFERENCES `actor` (`id`);
+
+--
+-- Constraints for table `movie_director`
+--
+ALTER TABLE `movie_director`
+  ADD CONSTRAINT `movie_director_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`ID`),
+  ADD CONSTRAINT `movie_director_ibfk_2` FOREIGN KEY (`id_director`) REFERENCES `director` (`id`);
 
 --
 -- Constraints for table `movie_genre`

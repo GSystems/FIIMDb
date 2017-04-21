@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import eu.ubis.fiimdb.db.dao.GenreDao;
 import eu.ubis.fiimdb.db.dao.MovieDao;
@@ -34,30 +35,36 @@ public class MovieService {
 	@SuppressWarnings("unchecked")
 	public List<Movie> search(String criteria, String value) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
-		EntityManager entityMgr  = emf.createEntityManager();
+		EntityManager entityManager  = emf.createEntityManager();
 		List<Movie> movies = new ArrayList<Movie>();
 		List<MovieDao> moviesDao = new ArrayList<MovieDao>();
-		String query = "SELECT m FROM MovieDao m";
+		
+		String query = "SELECT m FROM MovieDao m ";
+		
 		switch(criteria) {
 		case "name":
-			query += " WHERE m.name LIKE '%" + value + "%'";
+			query += "WHERE m.name LIKE '%" + value + "%'";
 			break;
 		case "genre":
-			query = "SELECT m FROM MovieDao m  WHERE genre.type LIKE '%" + value + "%'";
+			query += "JOIN m.genres genre WHERE genre.type LIKE '%" + value + "%'";
+			
 			break;
 		case "year":
-			query += " WHERE year(releaseDate) = " + Integer.parseInt(value);
+					
+			query += "WHERE EXTRACT(YEAR m.releaseDate) = " + Integer.parseInt(value);
 			break;
 		case "description":
-			query += " WHERE m.description LIKE '%" + value + "%'";
-			break;
-		default:
+			query += "WHERE m.description LIKE '%" + value + "%'";
 			break;
 		}
-		entityMgr.getTransaction().begin();
-		moviesDao = entityMgr.createQuery(query).getResultList();
-		entityMgr.getTransaction().commit();
-		entityMgr.close();
+		
+		Query searchQuery = entityManager.createQuery(query);
+		entityManager.getTransaction().begin();
+		
+		moviesDao = searchQuery.getResultList();
+		
+		entityManager.getTransaction().commit();
+		entityManager.close();
 		emf.close();
 		
 		for(MovieDao movie : moviesDao) {
