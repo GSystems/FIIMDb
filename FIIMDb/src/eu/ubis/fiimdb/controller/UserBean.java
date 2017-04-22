@@ -31,4 +31,8 @@ public class UserBean {
 	public void insertNewUser(User user) throws SQLException {
 		userService.insertNewUser(user);
 	}
+	
+	public void getUserById(int id) {
+		user = userService.getUserById(id);
+	}
 }

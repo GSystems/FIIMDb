@@ -1,6 +1,9 @@
+<%@page import="eu.ubis.fiimdb.controller.UserBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "eu.ubis.fiimdb.model.Movie" %>
+<%@ page import = "eu.ubis.fiimdb.model.Comment" %>
+<%@ page import = "eu.ubis.fiimdb.model.User" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,8 +17,10 @@
 </head>
 <body>
 	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
+	<jsp:useBean id="commentBean" class="eu.ubis.fiimdb.controller.CommentBean" scope="request"></jsp:useBean>
+	<jsp:useBean id="userBean" class="eu.ubis.fiimdb.controller.UserBean" scope="request"></jsp:useBean>
 	
-	<% String user = request.getRemoteUser(); %>
+	<% String username = request.getRemoteUser(); %>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -27,7 +32,7 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="movies.jsp">Home</a>
-				<% if("admin".equals(user)) { %>
+				<% if("admin".equals(username)) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 				<% } %>
 				</ul>
@@ -36,15 +41,15 @@
 	 		<div class="nav navbar-nav navbar-right">
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-					<% if(user == null) { %>
+					<% if(username == null) { %>
 						guest
 					<% } else { %>
-						<%= user %>
+						<%= username %>
 					<% } %>
 					<span class="caret"></span></button>
 					<ul class="dropdown-menu" >
 						<li>
-						<% if(user == null) { %>
+						<% if(username == null) { %>
 						 	<form action="<%=response.encodeURL("UserServlet?action=login") %>" method="post">
 	           					<button type="submit" class="btn btn-default center-block">Login</button>
 	           				</form>
@@ -125,6 +130,7 @@
 					<%
 						Movie movie = movieBean.getMovies().get(0);
 					%>
+					
 					<li class="list-group-item">
 						<div class="row">
 							<img src="images/poster-unavailable.jpg" alt="Poster unavailable"
@@ -141,20 +147,65 @@
 								<p> Storyline:
 									<%=movie.getDescription()%>
 								</p>
-							<% if("admin".equals(user)) { %>
-							<form method="post" action="MovieServlet?action=delete">
-								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
-							</form>
-							<form method="post" action="MovieServlet?action=update">
-								<button type="submit" class="btn btn-primary" name="updateMovie" value="<%=movie.getId()%>">Update</button>
-							</form>
-							<% } %>
+								<% if("admin".equals(username)) { %>
+									<form method="post" action="MovieServlet?action=delete">
+										<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
+									</form>
+									<form method="post" action="MovieServlet?action=update">
+										<button type="submit" class="btn btn-primary" name="updateMovie" value="<%=movie.getId()%>">Update</button>
+									</form>
+								<% } %>
 							</div>
 						</div>
 					</li>
 				</ul>
 			</div>
 		</fieldset>
+		
+		<% if (username != null) { %>
+			<form method="post" action="CommentServlet?action=saveComment">
+				<input type="hidden" name="movieId" value="<%=movie.getId()%>">
+				<fieldset>
+					<legend>Leave a comment </legend>
+					<div class="movie-container">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<div class="form-group">
+					    		    <input class="form-control" placeholder="Comment" name="comment" type="text">
+				    			</div>
+					    		<button type="submit" class="btn btn-primary" name="saveComment" value="<%=movie.getId()%>">Submit</button>
+							</li>
+						</ul>
+					</div>
+				</fieldset>
+				<% } %>
+			</form>
+
+ 				<%
+ 					commentBean.loadComments(movie.getId());
+ 					for(Comment comment:commentBean.getCommentsList()) { 
+ 				%>
+				<fieldset>
+					<legend>Other comments</legend>
+					<div class="movie-container">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-sm-10">
+									<% 
+										userBean.getUserById(comment.getUserId());
+										User user = userBean.getUser();
+									%>
+										<h5><%=user.getUsername()%> </h5>
+										<p> <%=comment.getComment()%> </p> <br />
+									</div>
+								</div>			
+							</li>
+						</ul>
+					</div>
+				</fieldset>
+				 <% } %>
+			</form>
 	</div>
 </body>
 </html>

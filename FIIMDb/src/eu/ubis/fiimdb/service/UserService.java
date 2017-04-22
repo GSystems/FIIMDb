@@ -19,6 +19,18 @@ public class UserService {
 	
 	private static User user;
 	
+	public User getUserById(int id) {
+		User user = new User();
+		UserDao userDao = new UserDao();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		userDao = (UserDao) entityManager.createQuery("select u from UserDao u where u.id="+ id).getSingleResult();
+		entityManager.close();
+		emf.close();
+		user = mapUserDaoToUser(userDao);
+		return user;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public User getUserByUsername(String username) {
 		List<UserDao> userDao = new ArrayList<UserDao>();

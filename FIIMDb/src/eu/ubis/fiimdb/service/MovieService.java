@@ -94,6 +94,9 @@ public class MovieService {
 		EntityManager entityManager = emf.createEntityManager();
 		entityManager.getTransaction().begin();
 		MovieDao movie = entityManager.find(MovieDao.class, id);
+//		CommentService commmentService = new CommentService();
+		
+//		entityManager.createQuery("delete FROM CommentDao c WHERE c.movie="+ movie);
 		entityManager.remove(movie);
 		entityManager.getTransaction().commit();
 		entityManager.close();

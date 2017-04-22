@@ -6,6 +6,7 @@ public final class ServiceFactory {
 	private static UserService userService;
 	private static ActorService actorService;
 	private static DirectorService directorService;
+	private static CommentService commentService;
 	
 	public static MovieService getMovieService() {
 		if(movieService == null) {
@@ -40,5 +41,12 @@ public final class ServiceFactory {
 			directorService = new DirectorService();
 		}
 		return directorService;
+	}
+	
+	public static CommentService getCommentService() {
+		if(commentService == null) {
+			commentService = new CommentService();
+		}
+		return commentService;
 	}
 }

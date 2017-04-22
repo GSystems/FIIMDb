@@ -13,4 +13,3 @@
   usernames and emails
 - error message is printed on "register.jsp" page when an username or 
   email already exists
-

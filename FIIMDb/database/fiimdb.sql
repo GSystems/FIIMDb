@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2017 at 05:26 PM
+-- Generation Time: Apr 22, 2017 at 11:17 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -43,6 +43,27 @@ INSERT INTO `actor` (`id`, `name`, `nationality`, `age`) VALUES
 (3, 'Leonardo DiCaprio', 'american', 43),
 (4, 'Brad Pitt', 'american', 45),
 (5, 'Ralph Fiennes', 'french', 30);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comment`
+--
+
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL,
+  `comment_message` text NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`id`, `comment_message`, `id_user`) VALUES
+(5, 'salut', 2),
+(6, 'comm2', 2),
+(7, 'best movie', 3);
 
 -- --------------------------------------------------------
 
@@ -119,7 +140,8 @@ INSERT INTO `movie` (`ID`, `RELEASE_DATE`, `NAME`, `RATING`, `LENGTH`, `CASTING`
 (2, '1972-03-24 00:00:00', 'The Godfather', 5, 175, 'Marlon Brando', 'Francis Ford Coppola', NULL, 'Francis Ford Coppola'),
 (3, '1988-06-03 00:00:00', 'Titanic', 4, 194, 'Leonardo DiCaprio', 'James Cameron', NULL, 'James Cameron'),
 (4, '1999-10-15 00:00:00', 'Fight Club', 5, 139, 'Brad Pitt', 'David Fincher', NULL, 'Chuck Palahniuk'),
-(5, '2014-03-21 00:00:00', 'The Grand Budapest Hotel', 4, 99, 'Ralph Fiennes', 'Wes Anderson', NULL, 'Wes Anderson');
+(5, '2014-03-21 00:00:00', 'The Grand Budapest Hotel', 4, 99, 'Ralph Fiennes', 'Wes Anderson', NULL, 'Wes Anderson'),
+(12, '2011-05-23 00:00:00', 'myTest', 5, 5, 'First Actor, Second Actor', 'Director', 'worst movie', 'best writer');
 
 -- --------------------------------------------------------
 
@@ -142,6 +164,26 @@ INSERT INTO `movie_actor` (`id_movie`, `id_actor`) VALUES
 (3, 3),
 (4, 4),
 (5, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `movie_comment`
+--
+
+CREATE TABLE `movie_comment` (
+  `id_movie` int(11) NOT NULL,
+  `id_comment` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `movie_comment`
+--
+
+INSERT INTO `movie_comment` (`id_movie`, `id_comment`) VALUES
+(12, 5),
+(12, 6),
+(12, 7);
 
 -- --------------------------------------------------------
 
@@ -187,7 +229,9 @@ INSERT INTO `movie_genre` (`id_movie`, `id_genre`) VALUES
 (2, 3),
 (3, 2),
 (4, 5),
-(5, 3);
+(5, 3),
+(12, 1),
+(12, 3);
 
 -- --------------------------------------------------------
 
@@ -258,6 +302,13 @@ ALTER TABLE `actor`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `comment`
+--
+ALTER TABLE `comment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `movie_id_ibfk_1` (`id_user`);
+
+--
 -- Indexes for table `director`
 --
 ALTER TABLE `director`
@@ -281,6 +332,13 @@ ALTER TABLE `movie`
 ALTER TABLE `movie_actor`
   ADD KEY `id_movie` (`id_movie`),
   ADD KEY `id_actor` (`id_actor`);
+
+--
+-- Indexes for table `movie_comment`
+--
+ALTER TABLE `movie_comment`
+  ADD KEY `id_movie` (`id_movie`),
+  ADD KEY `id_comment` (`id_comment`);
 
 --
 -- Indexes for table `movie_director`
@@ -314,6 +372,11 @@ ALTER TABLE `users`
 ALTER TABLE `actor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT for table `comment`
+--
+ALTER TABLE `comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
 -- AUTO_INCREMENT for table `director`
 --
 ALTER TABLE `director`
@@ -327,7 +390,7 @@ ALTER TABLE `genre`
 -- AUTO_INCREMENT for table `movie`
 --
 ALTER TABLE `movie`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -338,11 +401,24 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `comment`
+--
+ALTER TABLE `comment`
+  ADD CONSTRAINT `movie_id_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `movie` (`ID`);
+
+--
 -- Constraints for table `movie_actor`
 --
 ALTER TABLE `movie_actor`
   ADD CONSTRAINT `movie_actor_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`ID`),
   ADD CONSTRAINT `movie_actor_ibfk_2` FOREIGN KEY (`id_actor`) REFERENCES `actor` (`id`);
+
+--
+-- Constraints for table `movie_comment`
+--
+ALTER TABLE `movie_comment`
+  ADD CONSTRAINT `movie_comment_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`ID`),
+  ADD CONSTRAINT `movie_comment_ibfk_2` FOREIGN KEY (`id_comment`) REFERENCES `comment` (`id`);
 
 --
 -- Constraints for table `movie_director`
