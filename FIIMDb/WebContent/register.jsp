@@ -80,13 +80,19 @@
 				    		</div>
 
 				    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Register">
-							 	
-						 	<% if ("true".equals(request.getParameter("flag"))) { %>
+							 
+						 	<% if ("1".equals(request.getParameter("errorId"))) { %>
 							 	<div class="span12">
 									<div class="alert alert-danger">
-									 	<!-- Username or Password is incorrect! -->
-									 		User or email exists
-								
+								 		username already exists in database
+									</div>
+							    </div>
+				     		<% } %>
+				     		
+				     		<% if ("2".equals(request.getParameter("errorId"))) { %>
+							 	<div class="span12">
+									<div class="alert alert-danger">
+								 		email address already exists in database
 									</div>
 							    </div>
 				     		<% } %>

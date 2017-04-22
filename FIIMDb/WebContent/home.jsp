@@ -120,8 +120,9 @@
 							<h3><%=movie.getName()%></h3>
 	
 							Release date:
-							<%=movie.getReleaseDate()%><br /> Director:
-							<%=movie.getDirector()%><br /> Rating:
+							<%=movie.getReleaseDate()%><br /> Casting:
+							<a href="actor.jsp?name=<%=movie.getCasting()%>"> <%=movie.getCasting() %> </a> <br /> Director:
+							<a href="director.jsp?name=<%=movie.getDirector() %>"><%=movie.getDirector() %> </a> <br /> Rating:
 							<%=movie.getRating()%><br /> Length:
 							<%=movie.getRating()%><br /> Genre:
 							<%=movie.getGenre()%> <br />

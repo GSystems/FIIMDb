@@ -20,7 +20,6 @@ import eu.ubis.fiimdb.model.User;
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static String error;
 	
 	/**
      * @see HttpServlet#HttpServlet()
@@ -111,6 +110,7 @@ public class UserServlet extends HttpServlet {
 	}
 	
 	public void insertNewUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String error = null;
 		UserBean userBean = new UserBean();
 		User user = getNewUserInfo(request, response);
 		try {
@@ -118,10 +118,13 @@ public class UserServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			error = e.getMessage();
+			System.out.println(error);
 		}
 		if(error == null)
 			response.sendRedirect("movies.jsp");
-		else response.sendRedirect("register.jsp?flag=true");
+		else if ("this username already exists".equals(error))
+			response.sendRedirect("register.jsp?errorId=1");
+		else response.sendRedirect("register.jsp?errorId=2");
 	}
 	
 	private User getUserPersonalInfo(HttpServletRequest request, HttpServletResponse response) {
