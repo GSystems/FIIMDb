@@ -50,7 +50,6 @@ public class MovieService {
 			
 			break;
 		case "year":
-					
 			query += "WHERE EXTRACT(YEAR m.releaseDate) = " + Integer.parseInt(value);
 			break;
 		case "description":
@@ -89,18 +88,17 @@ public class MovieService {
 	}
 	
 	//DELETE WITH JPA
-	public void deleteMovie(int id) {
+	public void deleteMovie(int movieId) {
+		MovieDao movieDao = new MovieDao();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
-		entityManager.getTransaction().begin();
-		MovieDao movie = entityManager.find(MovieDao.class, id);
-//		CommentService commmentService = new CommentService();
 		
-//		entityManager.createQuery("delete FROM CommentDao c WHERE c.movie="+ movie);
-		entityManager.remove(movie);
+		entityManager.getTransaction().begin();
+		movieDao = entityManager.find(MovieDao.class, movieId);
+		entityManager.remove(movieDao);
 		entityManager.getTransaction().commit();
 		entityManager.close();
-		emf.close();		
+		emf.close();
 	}
 	
 	//UPDATE WITH JPA

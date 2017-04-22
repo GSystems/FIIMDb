@@ -34,6 +34,9 @@ public class CommentServlet extends HttpServlet {
 			case("saveComment"):
 				saveComment(request,response);
 				break;
+			case("deleteComment"):
+				deleteComment(request, response);
+				break;
 		}
 	}
 	
@@ -45,6 +48,13 @@ public class CommentServlet extends HttpServlet {
 		comment.setComment(request.getParameter("comment"));
 		
 		commentBean.saveComment(comment, username, movieId);
+		response.sendRedirect("movie-details.jsp");
+	}
+	
+	private void deleteComment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CommentBean commentBean = new CommentBean();
+		int commentId = Integer.parseInt(request.getParameter("deleteComment"));
+		commentBean.deleteComment(commentId);
 		response.sendRedirect("movie-details.jsp");
 	}
 }

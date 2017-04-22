@@ -13,6 +13,7 @@ public class Movie {
 	private String description;
 	private String writer;
 	private String genre;
+	private String comments;
 	
 	public int getId() {
 		return id;
@@ -92,5 +93,13 @@ public class Movie {
 
 	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
 	}	
 }

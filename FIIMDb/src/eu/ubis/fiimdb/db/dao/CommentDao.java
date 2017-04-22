@@ -2,7 +2,6 @@ package eu.ubis.fiimdb.db.dao;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,11 +21,10 @@ public class CommentDao {
 	private String comment;
 	private int id_user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinTable(name="movie_comment",
 		joinColumns = @JoinColumn(name="id_comment", referencedColumnName="id"),
 		inverseJoinColumns = @JoinColumn(name="id_movie", referencedColumnName="id"))
-		
 	private MovieDao movie;
 	
 	public int getId() {
@@ -52,5 +50,5 @@ public class CommentDao {
 	}
 	public void setMovie(MovieDao movie) {
 		this.movie = movie;
-	}	
+	}
 }

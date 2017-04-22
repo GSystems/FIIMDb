@@ -5,6 +5,7 @@ import java.util.List;
 
 import eu.ubis.fiimdb.model.Genre;
 import eu.ubis.fiimdb.model.Movie;
+import eu.ubis.fiimdb.service.CommentService;
 import eu.ubis.fiimdb.service.GenreService;
 import eu.ubis.fiimdb.service.MovieService;
 import eu.ubis.fiimdb.service.ServiceFactory;
@@ -12,6 +13,8 @@ import eu.ubis.fiimdb.service.ServiceFactory;
 public class MovieBean {
 	private MovieService movieService = ServiceFactory.getMovieService();
 	private GenreService genreService = ServiceFactory.getGenreService();
+	private CommentService commentService = ServiceFactory.getCommentService();
+	
 	private static List<Movie> movies = new ArrayList<Movie>();
 	
 	public List<Movie> getMovies() {
@@ -39,8 +42,9 @@ public class MovieBean {
 		movies.add(movieService.getMovieById(id));
 	}
 	
-	public void deleteMovie(int id) {
-		movieService.deleteMovie(id);
+	public void deleteMovie(int movieId) {
+		commentService.deleteAllCommentsOfAMovie(movieId);
+		movieService.deleteMovie(movieId);
 		movies = movieService.getMovies();
 	}
 	

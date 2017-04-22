@@ -13,3 +13,4 @@
   usernames and emails
 - error message is printed on "register.jsp" page when an username or 
   email already exists
+- the author of the comment or the admin can delete the comment

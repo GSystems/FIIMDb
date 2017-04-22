@@ -21,4 +21,8 @@ public class CommentBean {
 	public void loadComments(int movieId) {
 		comments = commentService.getCommentsByMovieId(movieId);
 	}
+	
+	public void deleteComment(int commentId) {
+		commentService.deleteComment(commentId);
+	}
 }

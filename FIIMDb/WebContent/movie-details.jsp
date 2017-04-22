@@ -181,12 +181,13 @@
 				<% } %>
 			</form>
 
+				<fieldset>
+					<legend>Other comments</legend>
  				<%
  					commentBean.loadComments(movie.getId());
  					for(Comment comment:commentBean.getCommentsList()) { 
  				%>
-				<fieldset>
-					<legend>Other comments</legend>
+
 					<div class="movie-container">
 						<ul class="list-group">
 							<li class="list-group-item">
@@ -199,7 +200,12 @@
 										<h5><%=user.getUsername()%> </h5>
 										<p> <%=comment.getComment()%> </p> <br />
 									</div>
-								</div>			
+									<%if ("admin".equals(username) || username.equals(user.getUsername())) { %>
+										<form method="post" action="CommentServlet?action=deleteComment">
+											<button type="submit" class="btn btn-primary" name="deleteComment" value="<%=comment.getId()%>">Delete Comment</button>
+										</form>
+									<% } %>
+								</div>
 							</li>
 						</ul>
 					</div>
