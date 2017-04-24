@@ -21,8 +21,9 @@ public class MovieBean {
 		return movies;
 	}
 	
-	public void getAllMovies() {
-		movies = movieService.getMovies();
+	public void getAllMovies(int pageNumber, int pageSize) {
+		
+		movies = movieService.getMovies(pageNumber, pageSize);
 	}
 	
 	public void search(String criteria, String value) {
@@ -45,7 +46,7 @@ public class MovieBean {
 	public void deleteMovie(int movieId) {
 		commentService.deleteAllCommentsOfAMovie(movieId);
 		movieService.deleteMovie(movieId);
-		movies = movieService.getMovies();
+		movies = movieService.getMoviesNoPagination();
 	}
 	
 	public void updateMovie(Movie movie, int[] movieGenreIds, int id) {

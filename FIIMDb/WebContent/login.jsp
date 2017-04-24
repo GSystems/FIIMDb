@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="eu.ubis.fiimdb.captchas.CaptchasDotNet" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,19 +13,39 @@
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://mymaplist.com/js/vendor/TweenLite.min.js"></script>
+
+<%
+// Construct the captchas object (Default Values)
+CaptchasDotNet captchas = new eu.ubis.fiimdb.captchas.CaptchasDotNet(
+  request.getSession(true),     // Ensure session
+  "demo",                       // client
+  "secret"                      // secret
+  );
+// Construct the captchas object (Extended example)
+// CaptchasDotNet captchas = new captchas.CaptchasDotNet(
+//  request.getSession(true),     // Ensure session
+//  "demo",                       // client
+//  "secret",                     // secret
+//  "01",                         // alphabet
+//  16,                           // letters
+//  500,                          // width
+//  80                            // height
+//  );
+%>
+
 </head>
 
 <body>
- 
-		<div class="container">
-		    <div class="row vertical-offset-50">
-		    	<div class="col-md-4 col-md-offset-4">
-		    		<div class="panel panel-default">
-					  	<div class="panel-heading">
-					    	<h3 class="panel-title">Please sign in</h3>
-					 	</div>
-					  	<div class="panel-body">
-					    	<form accept-charset="UTF-8" action="j_security_check" method="POST">
+	<div class="container">
+	    <div class="row vertical-offset-50">
+	    	<div class="col-md-4 col-md-offset-4">
+	    		<div class="panel panel-default">
+				  	<div class="panel-heading">
+				    	<h3 class="panel-title">Please sign in</h3>
+				 	</div>
+				  	<div class="panel-body">
+				    	
+				    	<form accept-charset="UTF-8" action="j_security_check" method="POST">
 		                    <fieldset>
 					    	  	<div class="form-group">
 					    		    <input class="form-control" placeholder="Username" name="j_username" type="text">
@@ -31,29 +53,50 @@
 					    		<div class="form-group">
 					    			<input class="form-control" placeholder="Password" name="j_password" type="password" value="">
 					    		</div>
-					    		<div class="checkbox">
+					    						    		
+					    		<!-- <div class="checkbox">
 					    	    	<label>
 					    	    		<input name="remember" type="checkbox" value="Remember Me"> Remember Me
 					    	    	</label>
-					    	    </div>
+					    	    </div> -->
+	
 					    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+					    		
 					    		<% 
-								if(request.getParameter("flag").equals("true")){
+									if(request.getParameter("flag").equals("true")) {
 								 %>
 								 	<div class="span12">
 										<div class="alert alert-danger">
 										 	Username or Password is incorrect!
 										</div>
 								    </div>
-								<%} %> 
+								<%} %>
 					    	</fieldset>
-					      	</form>
-					    </div>
+			      		</form>
+			      		<form action="LoginServlet.jsp?action=rememberMe" method="post">
+				      		<input type="checkbox" id="RememberMe" name="rememberMe">
+							<label for="RememberMe">Remember Me</label>
+						</form>
+						
+						<form method="get" action="<%=response.encodeUrl("check.jsp")%>" >
+			            	<div class="form-group">
+					          <input name="password" size="16" />
+					          <%-- 
+					           % it's possible to set a random in captchas.image("xyz"),
+					           % captchas.imageUrl("xyz") and captchas.audioUrl("xyz").
+					           % This is only needed at the first request
+					           --%>
+					          <%= captchas.image() %><br>
+					          <input type="submit" value="Submit" />
+							</div>
+					  	</form>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
+
 <style type="text/css">
 .vertical-offset-50 {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
@@ -63,5 +106,4 @@
   align-items: center;
 }
 </style>
-
 </html>

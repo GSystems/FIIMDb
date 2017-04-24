@@ -27,7 +27,7 @@
 			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="movies.jsp">Home</a>
+					<li class="active"><a href="movies.jsp?pageNumber=1">Home</a>
 	
 				<% if("admin".equals(username)) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>

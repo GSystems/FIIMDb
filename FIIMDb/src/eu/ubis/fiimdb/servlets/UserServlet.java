@@ -72,8 +72,7 @@ public class UserServlet extends HttpServlet {
         if(session != null){
             session.invalidate();
         }
-        //no encoding because we have invalidated the session
-        response.sendRedirect("movies.jsp");
+        response.sendRedirect("movies.jsp?pageNumber=1");
 	}
 
 	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -96,7 +95,7 @@ public class UserServlet extends HttpServlet {
 		User user = getUserPersonalInfo(request,response);
 		String username = request.getRemoteUser();
 		userBean.updateUserInfo(user, username);
-		response.sendRedirect("movies.jsp");
+		response.sendRedirect("movies.jsp?pageNumber=1");
 	}
 	
 	private void resetPassword(HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchAlgorithmException {

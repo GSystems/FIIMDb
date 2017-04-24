@@ -28,7 +28,7 @@
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="movies.jsp">Home</a></li>
 					<% if(request.getRemoteUser().equals("admin")) { %>
-					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
+					<li class="active"><a href="movie-insert.jsp?pageNumber=1">Insert Movie</a>
 					<% } %>
 			</div>
 			

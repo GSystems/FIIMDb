@@ -16,14 +16,37 @@ public class MovieService {
 	
 	//GET ALL MOVIES WITH JPA
 	@SuppressWarnings("unchecked")
-	public List<Movie> getMovies() {
+	public List<Movie> getMovies(int pageNumber, int pageSize) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
 		EntityManager entityManager = emf.createEntityManager();
 		List<Movie> movies = new ArrayList<Movie>();
 		List<MovieDao> moviesDao = new ArrayList<MovieDao>();
+
 		entityManager.getTransaction().begin();
-		moviesDao = entityManager.createQuery("SELECT m FROM MovieDao m").getResultList();
-		entityManager.getTransaction().commit();
+		
+		Query query = entityManager.createQuery("Select m From MovieDao m");
+		query.setFirstResult((pageNumber-1) * pageSize);
+		query.setMaxResults(pageSize);
+		
+		moviesDao = query.getResultList();
+		entityManager.close();
+		emf.close();
+		for(MovieDao movie : moviesDao)
+			movies.add(mapMovieDaoToMovie(movie));
+		return movies;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Movie> getMoviesNoPagination() {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("fiimdb");
+		EntityManager entityManager = emf.createEntityManager();
+		List<Movie> movies = new ArrayList<Movie>();
+		List<MovieDao> moviesDao = new ArrayList<MovieDao>();
+
+		entityManager.getTransaction().begin();
+		
+		Query query = entityManager.createQuery("Select m From MovieDao m");
+		moviesDao = query.getResultList();
 		entityManager.close();
 		emf.close();
 		for(MovieDao movie : moviesDao)

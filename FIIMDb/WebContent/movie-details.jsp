@@ -31,7 +31,7 @@
 			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="movies.jsp">Home</a>
+					<li class="active"><a href="movies.jsp?pageNumber=1">Home</a>
 				<% if("admin".equals(username)) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 				<% } %>
@@ -200,10 +200,13 @@
 										<h5><%=user.getUsername()%> </h5>
 										<p> <%=comment.getComment()%> </p> <br />
 									</div>
-									<%if ("admin".equals(username) || username.equals(user.getUsername())) { %>
-										<form method="post" action="CommentServlet?action=deleteComment">
-											<button type="submit" class="btn btn-primary" name="deleteComment" value="<%=comment.getId()%>">Delete Comment</button>
-										</form>
+										
+									<%
+										if (username != null)
+										if ("admin".equals(username) || username.equals(user.getUsername())) { %>
+											<form method="post" action="CommentServlet?action=deleteComment">
+												<button type="submit" class="btn btn-primary" name="deleteComment" value="<%=comment.getId()%>">Delete Comment</button>
+											</form>
 									<% } %>
 								</div>
 							</li>
@@ -211,7 +214,6 @@
 					</div>
 				</fieldset>
 				 <% } %>
-			</form>
 	</div>
 </body>
 </html>

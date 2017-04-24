@@ -52,6 +52,12 @@ public class MovieServlet extends HttpServlet {
 			case "saveUpdates":
 				saveUpdates(request, response);
 				break;
+			case "nextPage":
+				nextPage(request, response);
+				break;
+			case "previousPage":
+				previousPage(request, response);
+				break;	
 		}
 	}
 	
@@ -79,7 +85,6 @@ public class MovieServlet extends HttpServlet {
 	
 	private void movieUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		MovieBean movieBean = new MovieBean();
-		
 		int id = Integer.parseInt(request.getParameter("updateMovie"));
 		movieBean.movieDetails(id);
 		response.sendRedirect("movie-update.jsp");
@@ -91,6 +96,30 @@ public class MovieServlet extends HttpServlet {
 		Movie movie = getMovieInfo(request, response);	
 		movieBean.updateMovie(movie, movieGenreIds, id);
 		response.sendRedirect("movies.jsp");
+	}
+	
+	private void nextPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int currentPage = Integer.parseInt(request.getParameter("pageNumber"));
+		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+		MovieBean movieBean = new MovieBean();
+		currentPage++;
+		
+		movieBean.getAllMovies(currentPage, pageSize);
+		if(movieBean.getMovies().isEmpty())
+			currentPage--;
+		response.sendRedirect("movies.jsp?pageNumber=" + currentPage);
+	}
+	
+	private void previousPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int currentPage = Integer.parseInt(request.getParameter("pageNumber"));
+		int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+		MovieBean movieBean = new MovieBean();
+		currentPage--;
+		if(currentPage <= 0)
+			currentPage = 1;
+		
+		movieBean.getAllMovies(currentPage, pageSize);
+		response.sendRedirect("movies.jsp?pageNumber=" + currentPage);
 	}
 
 	private Movie getMovieInfo(HttpServletRequest request, HttpServletResponse response) {

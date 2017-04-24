@@ -28,7 +28,7 @@
 			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="movies.jsp">Home</a>
+					<li class="active"><a href="movies.jsp?pageNumber=1">Home</a>
 					<% if("admin".equals(user)) { %>
 						<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 					<% } %>
@@ -107,7 +107,7 @@
 			<ul class="list-group">
 			
 				<%
-					movieBean.getAllMovies();
+					/* movieBean.getAllMovies(); */
 					for (Movie movie : movieBean.getMovies()) {
 				%>
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="eu.ubis.fiimdb.model.Movie"%>
+<%@ page import="eu.ubis.fiimdb.servlets.StartServlet" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,11 +13,12 @@
 
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+
 </head>
 <body>
 	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
-
-	<% String user = request.getRemoteUser(); %>
+	
+	<% String username = request.getRemoteUser(); %>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -27,9 +29,9 @@
 			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="movies.jsp">Home</a>
+					<li class="active"><a href="movies.jsp?pageNumber=1">Home</a>
 	
-				<% if("admin".equals(user)) { %>
+				<% if("admin".equals(username)) { %>
 					<li class="active"><a href="movie-insert.jsp">Insert Movie</a>
 				<% } %>
 				</ul>
@@ -38,16 +40,16 @@
 	 		<div class="nav navbar-nav navbar-right">
 				<div class="dropdown">
 					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-						<% if(user == null) { %>
+						<% if(username == null) { %>
 							guest
 						<% } else { %>
-							<%= user %>
+							<%= username %>
 						<% } %>
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" >
 						<li>
-							<% if(user == null) { %>
+							<% if(username == null) { %>
 						 	<form action="<%=response.encodeURL("UserServlet?action=login") %>" method="post">
 	           					<button type="submit" class="btn btn-default center-block">Login</button>
 	           				</form>
@@ -125,10 +127,11 @@
 		<div class="movie-container">
 			<ul class="list-group">
 				<%
-					movieBean.getAllMovies();
+					int pageNumber= Integer.parseInt(request.getParameter("pageNumber"));
+					int pageSize=2;
+					movieBean.getAllMovies(pageNumber, pageSize);
 					for (Movie movie : movieBean.getMovies()) {
 				%>
-
 				<li class="list-group-item">
 					<div class="row">
 						<img src="images/poster-unavailable.jpg" alt="Poster unavailable"
@@ -151,7 +154,7 @@
 							<form method="post" action="MovieServlet?action=details">
 								<button type="submit" class="btn btn-primary" name="detailsButton" value="<%=movie.getId()%>">Details</button>
 							</form>
-							<% if("admin".equals(user)) { %>
+							<% if("admin".equals(username)) { %>
 							<form method="post" action="MovieServlet?action=delete">
 								<button type="submit" class="btn btn-primary" name="deleteMovie" value="<%=movie.getId()%>">Delete</button>
 							</form>
@@ -167,6 +170,21 @@
 				%>
 			</ul>
 		</div>
+		<form method="post" action="MovieServlet?action=previousPage">
+			<input type="hidden" name="pageNumber" value="<%=pageNumber %>">
+			<input type="hidden" name="pageSize"   value="<%=pageSize %>">
+			<div class="form-group>">
+			<button type="submit" class="btn btn-primary" name="previousPage" value="previousPage">Previous Page</button> 
+		</div>
+		</form>
+		<form method="post" action="MovieServlet?action=nextPage">
+			<input type="hidden" name="pageNumber" value="<%=pageNumber %>">
+			<input type="hidden" name="pageSize"   value="<%=pageSize %>">
+			
+			<div class="form-group>">
+				<button type="submit" class="btn btn-primary" name="nextPage" value="nextPage">Next Page</button> 
+			</div>
+		</form>
 	</div>
 </body>
 </html>
