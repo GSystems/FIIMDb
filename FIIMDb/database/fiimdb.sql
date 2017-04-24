@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2017 at 11:17 PM
+-- Generation Time: Apr 24, 2017 at 09:59 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -61,9 +61,12 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`id`, `comment_message`, `id_user`) VALUES
-(5, 'salut', 2),
-(6, 'comm2', 2),
-(7, 'best movie', 3);
+(12, 'first comm', 1),
+(13, 'nice one', 1),
+(14, 'tester', 2),
+(15, 'tester', 2),
+(16, 'tester', 2),
+(17, 'jboss', 1);
 
 -- --------------------------------------------------------
 
@@ -116,6 +119,26 @@ INSERT INTO `genre` (`ID`, `TYPE`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ip`
+--
+
+CREATE TABLE `ip` (
+  `ID` int(11) NOT NULL,
+  `ip` varchar(50) NOT NULL,
+  `count` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ip`
+--
+
+INSERT INTO `ip` (`ID`, `ip`, `count`) VALUES
+(1, '0:0:0:0:0:0:0:1', 3),
+(2, '0:0:0:0:0:0:0:1', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `movie`
 --
 
@@ -141,7 +164,7 @@ INSERT INTO `movie` (`ID`, `RELEASE_DATE`, `NAME`, `RATING`, `LENGTH`, `CASTING`
 (3, '1988-06-03 00:00:00', 'Titanic', 4, 194, 'Leonardo DiCaprio', 'James Cameron', NULL, 'James Cameron'),
 (4, '1999-10-15 00:00:00', 'Fight Club', 5, 139, 'Brad Pitt', 'David Fincher', NULL, 'Chuck Palahniuk'),
 (5, '2014-03-21 00:00:00', 'The Grand Budapest Hotel', 4, 99, 'Ralph Fiennes', 'Wes Anderson', NULL, 'Wes Anderson'),
-(12, '2011-05-23 00:00:00', 'myTest', 5, 5, 'First Actor, Second Actor', 'Director', 'worst movie', 'best writer');
+(14, '2017-04-23 00:00:00', 'My Movie', 5, 118, '', 'test', 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -181,9 +204,12 @@ CREATE TABLE `movie_comment` (
 --
 
 INSERT INTO `movie_comment` (`id_movie`, `id_comment`) VALUES
-(12, 5),
-(12, 6),
-(12, 7);
+(14, 12),
+(14, 13),
+(14, 14),
+(14, 15),
+(14, 16),
+(14, 17);
 
 -- --------------------------------------------------------
 
@@ -230,8 +256,8 @@ INSERT INTO `movie_genre` (`id_movie`, `id_genre`) VALUES
 (3, 2),
 (4, 5),
 (5, 3),
-(12, 1),
-(12, 3);
+(14, 2),
+(14, 3);
 
 -- --------------------------------------------------------
 
@@ -291,6 +317,25 @@ INSERT INTO `users_roles` (`username`, `rolename`) VALUES
 ('md', 'user'),
 ('jhasbfsdhfbskdfbwo', 'user');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_ip`
+--
+
+CREATE TABLE `user_ip` (
+  `id_user` int(11) NOT NULL,
+  `id_ip` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_ip`
+--
+
+INSERT INTO `user_ip` (`id_user`, `id_ip`) VALUES
+(1, 1),
+(2, 2);
+
 --
 -- Indexes for dumped tables
 --
@@ -318,6 +363,12 @@ ALTER TABLE `director`
 -- Indexes for table `genre`
 --
 ALTER TABLE `genre`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `ip`
+--
+ALTER TABLE `ip`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -363,6 +414,13 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `USERNAME` (`USERNAME`);
 
 --
+-- Indexes for table `user_ip`
+--
+ALTER TABLE `user_ip`
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_ip` (`id_ip`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -375,7 +433,7 @@ ALTER TABLE `actor`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `director`
 --
@@ -387,10 +445,15 @@ ALTER TABLE `director`
 ALTER TABLE `genre`
   MODIFY `ID` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
+-- AUTO_INCREMENT for table `ip`
+--
+ALTER TABLE `ip`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `movie`
 --
 ALTER TABLE `movie`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -433,6 +496,13 @@ ALTER TABLE `movie_director`
 ALTER TABLE `movie_genre`
   ADD CONSTRAINT `movie_genre_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `movie` (`ID`),
   ADD CONSTRAINT `movie_genre_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genre` (`ID`);
+
+--
+-- Constraints for table `user_ip`
+--
+ALTER TABLE `user_ip`
+  ADD CONSTRAINT `user_ip_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`ID`),
+  ADD CONSTRAINT `user_ip_ibfk_2` FOREIGN KEY (`id_ip`) REFERENCES `ip` (`ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

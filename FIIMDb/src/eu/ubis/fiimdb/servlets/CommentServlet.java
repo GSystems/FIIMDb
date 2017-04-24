@@ -46,7 +46,6 @@ public class CommentServlet extends HttpServlet {
 		int movieId = Integer.parseInt(request.getParameter("movieId"));
 		String username = request.getRemoteUser();
 		comment.setComment(request.getParameter("comment"));
-		
 		commentBean.saveComment(comment, username, movieId);
 		response.sendRedirect("movie-details.jsp");
 	}

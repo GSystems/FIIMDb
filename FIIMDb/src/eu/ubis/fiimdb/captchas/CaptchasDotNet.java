@@ -62,8 +62,6 @@ public class CaptchasDotNet {
     this.secret   = secret;
     this.alphabet = alphabet;
     this.letters  = letters;
-    this.width    = width;
-    this.height   = height;
   } 
   // additional alphabet, letters, width, height
   public CaptchasDotNet(HttpSession httpSess, 

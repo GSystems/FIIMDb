@@ -106,7 +106,7 @@ public class UserServlet extends HttpServlet {
  		
  		if(correctMessage == true)
  			response.sendRedirect("login.jsp?correct=true");
- 		else response.sendRedirect("home.jsp");
+ 		else response.sendRedirect("home.jsp?correct=false");
 	}
 	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.sendRedirect("home.jsp?correct=false");

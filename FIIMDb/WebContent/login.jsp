@@ -62,6 +62,7 @@ CaptchasDotNet captchas = new eu.ubis.fiimdb.captchas.CaptchasDotNet(
 					    	    		<input name="remember" type="checkbox" value="Remember Me"> Remember Me
 					    	    	</label>
 					    	    </div>
+					    	    
 					    		<div class="form-group">
 					    			<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
 					    		</div>

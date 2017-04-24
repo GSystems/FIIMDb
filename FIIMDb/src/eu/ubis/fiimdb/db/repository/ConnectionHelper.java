@@ -21,9 +21,7 @@ public class ConnectionHelper {
 
 				Class.forName("com.mysql.jdbc.Driver");
 				System.out.println("DRIVER LOADED...");
-
 				System.out.println("INITIALIZING CONNECTION...");
-
 				connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 				System.out.println("CONNECTION INITIALIZED!");
 			} catch (ClassNotFoundException e) {

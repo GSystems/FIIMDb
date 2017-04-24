@@ -7,6 +7,7 @@ public final class ServiceFactory {
 	private static ActorService actorService;
 	private static DirectorService directorService;
 	private static CommentService commentService;
+	private static IpService ipService;
 	
 	public static MovieService getMovieService() {
 		if(movieService == null) {
@@ -48,5 +49,12 @@ public final class ServiceFactory {
 			commentService = new CommentService();
 		}
 		return commentService;
+	}
+	
+	public static IpService getIpService() {
+		if(ipService == null) {
+			ipService = new IpService();
+		}
+		return ipService;
 	}
 }

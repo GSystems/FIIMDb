@@ -16,7 +16,33 @@
 <body>
 	<jsp:useBean id="movieBean" class="eu.ubis.fiimdb.controller.MovieBean" scope="request"></jsp:useBean>
 
-	<%String user = request.getRemoteUser(); %>
+	<%
+		String user = request.getRemoteUser();
+		String ip = request.getHeader("X-Forwarded-For");  
+	    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+	        ip = request.getHeader("Proxy-Client-IP");  
+	    }  
+	    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+	        ip = request.getHeader("WL-Proxy-Client-IP");  
+	    }  
+	    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+	        ip = request.getHeader("HTTP_CLIENT_IP");  
+	    }  
+	    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+	        ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+	    }  
+	    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+	        ip = request.getRemoteAddr();  
+	    }
+	%>
+	<%=ip %>
+	
+	<form action="IpServlet" method="post">
+		<input type="hidden" name="ip" value="<%=ip %>">
+		<input type="hidden" name="username" value="<%=request.getRemoteUser() %>">
+		<input type="submit" value="Save Ip">
+	</form>
+
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -63,6 +89,8 @@
 			<legend>Search Form</legend>
 
 			<form action="SearchServlet" method="GET">
+				<input type="hidden" name="ip" value="<%=ip %>">
+				
 				<div class="col-sm-8">
 					<div class="form-group">
 						<% if (request.getParameter("searchedValue") == null) { %>

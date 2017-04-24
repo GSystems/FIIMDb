@@ -85,7 +85,7 @@
 				<div class="col-sm-8">
 					<div class="form-group">
 						<% if (request.getParameter("searchedValue") == null) { %>
-							<input type="text" class="form-control" placeholder="Search..." name="searchedValue">
+							<input type="text" class="form-control" placeholder="Search..." name="searchedValue"  id = "searchedValue">
 						<%} else { %>
 							<input type="text" class="form-control" value="<%=request.getParameter("searchedValue") %>"  name="searchedValue">
 						<% } %>
