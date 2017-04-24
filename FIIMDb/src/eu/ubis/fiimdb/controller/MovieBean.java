@@ -22,8 +22,11 @@ public class MovieBean {
 	}
 	
 	public void getAllMovies(int pageNumber, int pageSize) {
-		
 		movies = movieService.getMovies(pageNumber, pageSize);
+	}
+	
+	public void getMoviesNoPagination() {
+		movies = movieService.getMoviesNoPagination();
 	}
 	
 	public void search(String criteria, String value) {

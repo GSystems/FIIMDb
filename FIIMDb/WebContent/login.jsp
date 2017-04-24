@@ -21,16 +21,6 @@ CaptchasDotNet captchas = new eu.ubis.fiimdb.captchas.CaptchasDotNet(
   "demo",                       // client
   "secret"                      // secret
   );
-// Construct the captchas object (Extended example)
-// CaptchasDotNet captchas = new captchas.CaptchasDotNet(
-//  request.getSession(true),     // Ensure session
-//  "demo",                       // client
-//  "secret",                     // secret
-//  "01",                         // alphabet
-//  16,                           // letters
-//  500,                          // width
-//  80                            // height
-//  );
 %>
 
 </head>
@@ -44,7 +34,20 @@ CaptchasDotNet captchas = new eu.ubis.fiimdb.captchas.CaptchasDotNet(
 				    	<h3 class="panel-title">Please sign in</h3>
 				 	</div>
 				  	<div class="panel-body">
-				    	
+				  	
+				  	
+				  	<% if("false".equals(request.getParameter("correct"))) { %>
+				  	<form action="UserServlet?action=captcha" method="post">
+						<div class="form-group">
+		          			<input name="captchaMessage" placeHolder="type the word" size="16" />
+		          			<%= captchas.image() %>
+		          		</div>
+		          		<input type="submit" value="Submit" />
+				    </form>
+				    <% } %>
+				    
+				    <% if("true".equals(request.getParameter("correct"))) {%>
+				    
 				    	<form accept-charset="UTF-8" action="j_security_check" method="POST">
 		                    <fieldset>
 					    	  	<div class="form-group">
@@ -54,16 +57,16 @@ CaptchasDotNet captchas = new eu.ubis.fiimdb.captchas.CaptchasDotNet(
 					    			<input class="form-control" placeholder="Password" name="j_password" type="password" value="">
 					    		</div>
 					    						    		
-					    		<!-- <div class="checkbox">
+					    		<div class="checkbox">
 					    	    	<label>
 					    	    		<input name="remember" type="checkbox" value="Remember Me"> Remember Me
 					    	    	</label>
-					    	    </div> -->
-	
-					    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
-					    		
+					    	    </div>
+					    		<div class="form-group">
+					    			<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+					    		</div>
 					    		<% 
-									if(request.getParameter("flag").equals("true")) {
+									if("true".equals(request.getParameter("flag"))) {
 								 %>
 								 	<div class="span12">
 										<div class="alert alert-danger">
@@ -73,23 +76,7 @@ CaptchasDotNet captchas = new eu.ubis.fiimdb.captchas.CaptchasDotNet(
 								<%} %>
 					    	</fieldset>
 			      		</form>
-			      		<form action="LoginServlet.jsp?action=rememberMe" method="post">
-				      		<input type="checkbox" id="RememberMe" name="rememberMe">
-							<label for="RememberMe">Remember Me</label>
-						</form>
-						
-						<form method="get" action="<%=response.encodeUrl("check.jsp")%>" >
-			            	<div class="form-group">
-					          <input name="password" size="16" />
-					          <%-- 
-					           % it's possible to set a random in captchas.image("xyz"),
-					           % captchas.imageUrl("xyz") and captchas.audioUrl("xyz").
-					           % This is only needed at the first request
-					           --%>
-					          <%= captchas.image() %><br>
-					          <input type="submit" value="Submit" />
-							</div>
-					  	</form>
+			      		<% } %>
 					</div>
 				</div>
 			</div>

@@ -107,7 +107,7 @@
 			<ul class="list-group">
 			
 				<%
-					/* movieBean.getAllMovies(); */
+					movieBean.getMoviesNoPagination();
 					for (Movie movie : movieBean.getMovies()) {
 				%>
 

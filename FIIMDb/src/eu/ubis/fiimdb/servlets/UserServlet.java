@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import eu.ubis.fiimdb.captchas.CaptchasDotNet;
 import eu.ubis.fiimdb.controller.UserBean;
 import eu.ubis.fiimdb.model.User;
 
@@ -64,6 +65,9 @@ public class UserServlet extends HttpServlet {
 			case "insertNewUser":
 				insertNewUser(request, response);
 				break;
+			case "captcha":
+				captcha(request, response);
+				break;
 		}
 	}
 
@@ -74,9 +78,38 @@ public class UserServlet extends HttpServlet {
         }
         response.sendRedirect("movies.jsp?pageNumber=1");
 	}
-
+	
+	private void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		CaptchasDotNet captchas = new CaptchasDotNet(
+				  request.getSession(true),     // Ensure session
+				  "demo",                       // client
+				  "secret"                      // secret
+				  );
+ 		String captchaMessage = request.getParameter("captchaMessage");
+ 		
+ 		boolean correctMessage;
+ 		
+ 		switch (captchas.check(captchaMessage)) {
+ 		  case 's':
+ 			  correctMessage = false;
+ 			  break;
+ 		  case 'm':
+ 			 correctMessage = false;
+ 			  break;
+ 		  case 'w':
+ 			 correctMessage = false;
+ 			  break;
+ 		  default:
+ 			  correctMessage = true;
+ 		    break;
+ 		}
+ 		
+ 		if(correctMessage == true)
+ 			response.sendRedirect("login.jsp?correct=true");
+ 		else response.sendRedirect("home.jsp");
+	}
 	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect("home.jsp");
+		response.sendRedirect("home.jsp?correct=false");
 	}
 	
 	private void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -120,7 +153,7 @@ public class UserServlet extends HttpServlet {
 			System.out.println(error);
 		}
 		if(error == null)
-			response.sendRedirect("movies.jsp");
+			response.sendRedirect("movies.jsp?pageNumber=1");
 		else if ("this username already exists".equals(error))
 			response.sendRedirect("register.jsp?errorId=1");
 		else response.sendRedirect("register.jsp?errorId=2");
