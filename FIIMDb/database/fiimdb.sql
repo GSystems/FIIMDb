@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 24, 2017 at 09:59 PM
+-- Generation Time: Apr 24, 2017 at 10:44 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
@@ -133,8 +133,9 @@ CREATE TABLE `ip` (
 --
 
 INSERT INTO `ip` (`ID`, `ip`, `count`) VALUES
-(1, '0:0:0:0:0:0:0:1', 3),
-(2, '0:0:0:0:0:0:0:1', 1);
+(1, '0:0:0:0:0:0:0:1', 5),
+(2, '0:0:0:0:0:0:0:1', 2),
+(4, '0:0:0:0:0:0:0:1', 1);
 
 -- --------------------------------------------------------
 
@@ -334,7 +335,8 @@ CREATE TABLE `user_ip` (
 
 INSERT INTO `user_ip` (`id_user`, `id_ip`) VALUES
 (1, 1),
-(2, 2);
+(2, 2),
+(3, 4);
 
 --
 -- Indexes for dumped tables
@@ -448,7 +450,7 @@ ALTER TABLE `genre`
 -- AUTO_INCREMENT for table `ip`
 --
 ALTER TABLE `ip`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `movie`
 --

@@ -18,6 +18,7 @@
 
 	<%
 		String user = request.getRemoteUser();
+	
 		String ip = request.getHeader("X-Forwarded-For");  
 	    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
 	        ip = request.getHeader("Proxy-Client-IP");  
@@ -35,14 +36,6 @@
 	        ip = request.getRemoteAddr();  
 	    }
 	%>
-	<%=ip %>
-	
-	<form action="IpServlet" method="post">
-		<input type="hidden" name="ip" value="<%=ip %>">
-		<input type="hidden" name="username" value="<%=request.getRemoteUser() %>">
-		<input type="submit" value="Save Ip">
-	</form>
-
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -88,8 +81,10 @@
 		<fieldset>
 			<legend>Search Form</legend>
 
-			<form action="SearchServlet" method="GET">
+			<form action="SearchServlet" method="POST">
+				
 				<input type="hidden" name="ip" value="<%=ip %>">
+				<input type="hidden" name="username" value="<%=user%>">
 				
 				<div class="col-sm-8">
 					<div class="form-group">

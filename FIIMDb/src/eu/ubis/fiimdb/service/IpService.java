@@ -19,19 +19,20 @@ public class IpService {
 		EntityManager entityManager = emf.createEntityManager();
 		List<IpDao> ipDao = new ArrayList<IpDao>();
 		
-		ipDao = entityManager.createQuery("select i from IpDao i where i.ip LIKE '" + ip.getIp() + "'").getResultList();
+		ipDao = entityManager.createQuery("select i from IpDao i JOIN i.user user WHERE user.username LIKE '" + username  + "'").getResultList();
 		
-		if(ipDao.size() == 1) {
+		if(ipDao.size() >=1 ) {
 			if(ipDao.get(0).getUser().getUsername().equals(ip.getUser())) {
-				entityManager.getTransaction().begin();
-				int newCount = ipDao.get(0).getCount() + 1;
-				ipDao.get(0).setCount(newCount);
-				entityManager.getTransaction().commit();
-				entityManager.close();
-				emf.close();
+					entityManager.getTransaction().begin();
+					int newCount = ipDao.get(0).getCount() + 1;
+					ipDao.get(0).setCount(newCount);
+					entityManager.getTransaction().commit();
+					entityManager.close();
+					emf.close();
 			} else
 				newIp(ip, username);
-		}
+		} else
+			newIp(ip, username);
 	}
 	
 	private void newIp(Ip ip, String username) {

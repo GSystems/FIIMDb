@@ -14,3 +14,7 @@
 - error message is printed on "register.jsp" page when an username or 
   email already exists
 - the author of the comment or the admin can delete the comment
+- pagination is available only on "movies.jsp" page (because it's annoying)
+- the user's ip is saved in database only after he search
+  for a movie in "movie.jsp" page (i couldn't make it immediately 
+  after loggin)

@@ -28,7 +28,7 @@ public class IpServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ip = request.getParameter("ip");
 		String username = request.getParameter("username");
 		IpBean ipBean = new IpBean();
